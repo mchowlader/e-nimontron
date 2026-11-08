@@ -61,16 +61,40 @@ export default function EventSchedule({ lang }) {
                   {isBn ? event.titleBn : event.titleEn}
                 </h3>
 
-                {/* Date & Time */}
+                {/* Date, Panjika Tithi & Time */}
                 <div className="space-y-2 py-2 border-y border-vedic-gold/20 text-xs sm:text-sm">
                   <div className="flex items-start gap-2 text-amber-100">
                     <Calendar className="w-4 h-4 text-vedic-gold shrink-0 mt-0.5" />
-                    <span className="font-medium">{isBn ? event.dateBn : event.dateEn}</span>
+                    <div>
+                      <span className="font-medium">{isBn ? event.dateBn : event.dateEn}</span>
+                      {event.panjikaBn && (
+                        <p className="text-[11px] font-serif font-semibold text-yellow-300/90 mt-0.5">
+                          ॥ {isBn ? event.panjikaBn : event.panjikaEn} ॥
+                        </p>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-start gap-2 text-amber-200/90">
                     <Clock className="w-4 h-4 text-vedic-gold shrink-0 mt-0.5" />
                     <span>{isBn ? event.timeBn : event.timeEn}</span>
                   </div>
+
+                  {/* Sacred Sindoor Daan Highlight for Vivah Ceremony */}
+                  {event.id === 'vivah' && (
+                    <div className="mt-2 p-2.5 rounded-2xl bg-[#220205] border border-vedic-gold/40 flex items-center gap-3 shadow-inner">
+                      <div className="w-10 h-10 rounded-full bg-[#38050b] border border-vedic-gold/80 p-1.5 shrink-0 flex items-center justify-center shadow">
+                        <img src="./images/assets/sindoor_kouto.svg" alt="সিঁদুর কৌটো" className="w-full h-full object-contain" />
+                      </div>
+                      <div className="text-left">
+                        <p className="text-xs font-bold text-yellow-300 font-serif">
+                          {isBn ? "মাঙ্গলিক সিঁদুর দান ও শুভ লগ্ন" : "Sacred Sindoor Daan"}
+                        </p>
+                        <p className="text-[10px] text-amber-200/80 leading-tight mt-0.5">
+                          {isBn ? "পবিত্র সিঁদুর কৌটো হতে সিঁদুর দানের মাধ্যমে দাম্পত্য জীবনের পরম সূচনা" : "Sacred Sindoor ceremony marking eternal union"}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Venue Details */}

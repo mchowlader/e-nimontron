@@ -72,34 +72,17 @@ export default function HeroHeader({ lang }) {
 
         {/* Sacred Wedding Invitation Opening Statement */}
         <div className="space-y-4">
-          {/* Traditional Shubho Drishti & Palki Conceptual Artwork */}
-          <div className="relative max-w-xs sm:max-w-sm mx-auto my-4 py-2">
-            <div className="relative rounded-3xl overflow-hidden border-2 border-vedic-gold/60 shadow-[0_0_30px_rgba(234,179,8,0.25)] bg-[#35050b]/90 p-3">
-              <img
-                src="./images/assets/shubho_drishti.webp"
-                alt="Shubh Vivah Shubho Drishti"
-                className="w-full h-auto object-contain rounded-2xl"
-              />
-              <div className="mt-2 text-center">
-                <span className="text-[11px] font-medium text-amber-200/90 tracking-wider">
-                  {isBn ? "॥ শুভ দৃষ্টি ও মালাবদল ॥" : "|| Sacred Shubho Drishti ||"}
-                </span>
-              </div>
+          {/* Royal Traditional Motif Crest (Zero stock photos) */}
+          <div className="flex items-center justify-center gap-3 my-3">
+            <span className="h-px w-16 sm:w-24 bg-gradient-to-r from-transparent to-vedic-gold" />
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#38050b]/90 border border-vedic-gold/60 shadow-lg">
+              <span className="text-sm">🪷</span>
+              <span className="text-xs font-serif font-bold text-yellow-300 tracking-widest uppercase">
+                {isBn ? "॥ শুভ বিবাহ ॥" : "|| Shubh Vivah ||"}
+              </span>
+              <span className="text-sm">🪷</span>
             </div>
-
-            {/* Floating Decorative Bengali Wedding Cultural Stickers (Sticker-type Motifs) */}
-            <div className="absolute -top-3 -left-4 w-12 h-12 rounded-full bg-[#3a060d] border border-vedic-gold/70 shadow-lg p-1.5 flex items-center justify-center animate-bounce duration-1000" title="পালকি">
-              <img src="./images/assets/palki.svg" alt="Palki" className="w-full h-full object-contain" />
-            </div>
-            <div className="absolute -top-3 -right-4 w-12 h-12 rounded-full bg-[#3a060d] border border-vedic-gold/70 shadow-lg p-1.5 flex items-center justify-center" title="বিয়ের আলপনা পিঁড়ি">
-              <img src="./images/assets/biye_piri.svg" alt="বিয়ের পিঁড়ি" className="w-full h-full object-contain" />
-            </div>
-            <div className="absolute -bottom-2 -left-3 w-12 h-12 rounded-full bg-[#3a060d] border border-vedic-gold/70 shadow-lg p-1.5 flex items-center justify-center" title="বিয়ের মাঙ্গলিক কুলা">
-              <img src="./images/assets/biye_kula.svg" alt="বিয়ের কুলা" className="w-full h-full object-contain" />
-            </div>
-            <div className="absolute -bottom-2 -right-3 w-12 h-12 rounded-full bg-[#3a060d] border border-vedic-gold/70 shadow-lg p-1.5 flex items-center justify-center animate-pulse" title="সিঁদুর কৌটো">
-              <img src="./images/assets/sindoor_kouto.svg" alt="Sindoor Kouto" className="w-full h-full object-contain" />
-            </div>
+            <span className="h-px w-16 sm:w-24 bg-gradient-to-l from-transparent to-vedic-gold" />
           </div>
 
           <p className="text-xs sm:text-sm font-medium tracking-widest uppercase text-amber-200/90">
@@ -108,10 +91,10 @@ export default function HeroHeader({ lang }) {
               : "With the divine blessings of our families, we joyfully invite you to celebrate"}
           </p>
 
-          {/* Couple Names Highlight - Bride First, Groom Second */}
+          {/* Couple Names Highlight - Groom First, Bride Second */}
           <div className="py-2 space-y-1">
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold text-yellow-300 drop-shadow-[0_4px_20px_rgba(250,204,21,0.4)] leading-relaxed pt-3 pb-1 inline-block">
-              {isBn ? weddingData.couple.bride.nameBn : weddingData.couple.bride.nameEn}
+              {isBn ? weddingData.couple.groom.nameBn : weddingData.couple.groom.nameEn}
             </h1>
             <div className="flex items-center justify-center gap-4 my-2 text-vedic-gold">
               <span className="h-px w-16 sm:w-28 bg-gradient-to-r from-transparent via-vedic-gold to-transparent" />
@@ -121,22 +104,37 @@ export default function HeroHeader({ lang }) {
               <span className="h-px w-16 sm:w-28 bg-gradient-to-r from-transparent via-vedic-gold to-transparent" />
             </div>
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold text-yellow-300 drop-shadow-[0_4px_20px_rgba(250,204,21,0.4)] leading-relaxed pt-2 pb-2 inline-block">
-              {isBn ? weddingData.couple.groom.nameBn : weddingData.couple.groom.nameEn}
+              {isBn ? weddingData.couple.bride.nameBn : weddingData.couple.bride.nameEn}
             </h1>
           </div>
 
-          {/* Auspicious Date and Lagna Info */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-[#260307]/80 border border-vedic-gold/40 rounded-full px-6 py-3 text-xs sm:text-sm text-amber-100 shadow-md">
-            <div className="flex items-center gap-1.5 text-vedic-gold">
-              <Calendar className="w-4 h-4 text-amber-300" />
-              <span className="font-semibold">
-                {isBn ? weddingData.dates.displayDateBn : weddingData.dates.displayDateEn}
+          {/* Panjika Paksha, Tithi & Auspicious Lagna Details */}
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full bg-vedic-maroonDark/90 border border-vedic-gold/60 text-xs sm:text-sm text-yellow-300 font-serif font-semibold shadow-lg">
+              <span>🪷</span>
+              <span>
+                {isBn
+                  ? `॥ ${weddingData.dates.panjikaPakshaBn}, ${weddingData.dates.panjikaTithiBn} ॥`
+                  : `|| ${weddingData.dates.panjikaPakshaEn}, ${weddingData.dates.panjikaTithiEn} ||`}
               </span>
+              <span>🪷</span>
             </div>
-            <span className="hidden sm:inline text-vedic-gold/50">•</span>
-            <div className="flex items-center gap-1.5 text-amber-200">
-              <Clock className="w-4 h-4 text-amber-300" />
-              <span>{isBn ? weddingData.dates.auspiciousLagnaBn : weddingData.dates.auspiciousLagnaEn}</span>
+
+            {/* Auspicious Date and Lagna Info */}
+            <div>
+              <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-[#260307]/80 border border-vedic-gold/40 rounded-full px-6 py-3 text-xs sm:text-sm text-amber-100 shadow-md">
+                <div className="flex items-center gap-1.5 text-vedic-gold">
+                  <Calendar className="w-4 h-4 text-amber-300" />
+                  <span className="font-semibold">
+                    {isBn ? weddingData.dates.displayDateBn : weddingData.dates.displayDateEn}
+                  </span>
+                </div>
+                <span className="hidden sm:inline text-vedic-gold/50">•</span>
+                <div className="flex items-center gap-1.5 text-amber-200">
+                  <Clock className="w-4 h-4 text-amber-300" />
+                  <span>{isBn ? weddingData.dates.auspiciousLagnaBn : weddingData.dates.auspiciousLagnaEn}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

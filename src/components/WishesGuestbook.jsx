@@ -141,8 +141,8 @@ export default function WishesGuestbook({ lang }) {
           </h2>
           <p className="text-xs sm:text-sm text-amber-200/80 max-w-xl mx-auto">
             {isBn
-              ? "মনস্বিতা ও মিঠুনের নতুন জীবনের শুভক্ষণে আপনার স্নেহময় আশীর্বাদ ও স্মৃতিমধুর ছবি সংযুক্ত করে পাঠিয়ে দিন"
-              : "Share your heartfelt blessings, warm wishes, and upload memories for Manoswita & Mithun"}
+              ? "মিঠুন ও মনস্বিতার নতুন জীবনের শুভক্ষণে আপনার স্নেহময় আশীর্বাদ ও স্মৃতিমধুর ছবি সংযুক্ত করে পাঠিয়ে দিন"
+              : "Share your heartfelt blessings, warm wishes, and upload memories for Mithun & Manoswita"}
           </p>
         </div>
 
@@ -172,7 +172,7 @@ export default function WishesGuestbook({ lang }) {
                 required
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder={isBn ? "মনস্বিতা ও মিঠুনের সুখী দাম্পত্য জীবনের জন্য আন্তরিক শুভকামনা..." : "Wishing Manoswita & Mithun a lifetime of happiness, peace, and eternal love..."}
+                placeholder={isBn ? "মিঠুন ও মনস্বিতার সুখী দাম্পত্য জীবনের জন্য আন্তরিক শুভকামনা..." : "Wishing Mithun & Manoswita a lifetime of happiness, peace, and eternal love..."}
                 className="w-full bg-[#250307] border border-vedic-gold/40 rounded-xl px-4 py-2.5 text-amber-100 text-sm focus:outline-none focus:border-vedic-gold placeholder-amber-200/30 resize-none"
               />
             </div>

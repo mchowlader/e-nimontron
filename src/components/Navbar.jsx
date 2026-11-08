@@ -38,7 +38,7 @@ export default function Navbar({ lang, setLang, onOpenEnvelope, onOpenAdmin }) {
             <div className="flex items-center gap-1">
               <span className="text-yellow-400 text-xs">❧</span>
               <span className="font-bengali font-bold text-base sm:text-lg text-yellow-300 drop-shadow-[0_2px_10px_rgba(250,204,21,0.5)] tracking-wide leading-none">
-                {isBn ? "মনস্বিতা ও মিঠুন" : "Manoswita & Mithun"}
+                {isBn ? "মিঠুন ও মনস্বিতা" : "Mithun & Manoswita"}
               </span>
               <span className="text-yellow-400 text-xs">☙</span>
             </div>

@@ -7,8 +7,8 @@ export default function Footer({ lang }) {
 
   const handleShareWhatsApp = () => {
     const text = isBn
-      ? `নমস্কার! মনস্বিতা হালদার রিংকু ও মিঠুন চন্দ্র হাওলাদারের শুভ বিবাহ উপলক্ষে আপনাকে ও আপনার পরিবারকে সানন্দ নিমন্ত্রণ। ডিজিটাল নিমন্ত্রণপত্র দেখতে ক্লিক করুন: ${window.location.href}`
-      : `Namaskar! You are cordially invited to the sacred wedding of Manoswita Halder Rinku & Mithun Chandra Howlader. View the digital wedding invitation here: ${window.location.href}`;
+      ? `নমস্কার! মিঠুন চন্দ্র হাওলাদার ও মনস্বিতা হালদার রিংকুর শুভ বিবাহ উপলক্ষে আপনাকে ও আপনার পরিবারকে সানন্দ নিমন্ত্রণ। ডিজিটাল নিমন্ত্রণপত্র দেখতে ক্লিক করুন: ${window.location.href}`
+      : `Namaskar! You are cordially invited to the sacred wedding of Mithun Chandra Howlader & Manoswita Halder Rinku. View the digital wedding invitation here: ${window.location.href}`;
 
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };

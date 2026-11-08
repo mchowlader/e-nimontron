@@ -43,40 +43,65 @@ export default function VedicVows({ lang }) {
           </p>
         </div>
 
-        {/* Traditional 'Sat Pake Bandha' (গাঁটছড়া ও হোমাগ্নি) Conceptual Centerpiece */}
-        <div className="relative max-w-md mx-auto bg-gradient-to-b from-[#3a060e] to-[#250307] border-2 border-vedic-gold/60 rounded-3xl p-6 shadow-2xl text-center space-y-4">
+        {/* Iconic 'Sat Pake Bandha' (সাতপাকের আইকনিক জ্যামিতিক থিম — পবিত্র হোমাগ্নি ও সাতটি প্রদক্ষিণ) */}
+        <div className="relative max-w-lg mx-auto bg-gradient-to-b from-[#3a060e] to-[#250307] border-2 border-vedic-gold/60 rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-5">
           <div className="flex items-center justify-center gap-2 text-vedic-gold text-xs font-semibold uppercase tracking-wider">
             <span>❧</span>
-            <span>{isBn ? "গাঁটছড়া ও সাতপাকে বাঁধা" : "The Sacred Knot of Togetherness"}</span>
+            <span>{isBn ? "সাতপাকের পবিত্র বৈদিক মাঙ্গলিক বন্ধন" : "The Sacred Seven Circumambulations"}</span>
             <span>☙</span>
           </div>
 
-          {/* User's uploaded Gathbandhan illustration */}
-          <div className="relative p-2 rounded-2xl bg-[#1f0306]/80 border border-vedic-gold/30">
-            <img
-              src="./images/assets/satpake_bandha.png"
-              alt="Sat Pake Bandha Gathbandhan"
-              className="w-full h-52 sm:h-60 object-contain mx-auto"
-            />
+          {/* Iconic Radial Sacred Agni & 7 Circumambulations Diagram */}
+          <div className="relative w-64 h-64 sm:w-72 sm:h-72 mx-auto flex items-center justify-center my-2">
+            {/* 7 Concentric Golden Orbital Rings (সাতপাকের ৭টি বৃত্তাকার প্রদক্ষিণ পরিধি) */}
+            <div className="absolute inset-0 rounded-full border border-vedic-gold/20 pointer-events-none" />
+            <div className="absolute inset-3 rounded-full border border-dashed border-vedic-gold/30 pointer-events-none" />
+            <div className="absolute inset-6 rounded-full border border-vedic-gold/20 pointer-events-none" />
+            <div className="absolute inset-9 rounded-full border border-dashed border-yellow-400/30 pointer-events-none" />
+            <div className="absolute inset-12 rounded-full border border-vedic-gold/25 pointer-events-none" />
+            <div className="absolute inset-16 rounded-full border border-dashed border-vedic-gold/35 pointer-events-none" />
+            <div className="absolute inset-20 rounded-full border border-vedic-gold/40 pointer-events-none" />
+
+            {/* Glowing Sacred Homakunda at Center */}
+            <div className="relative z-10 w-24 h-24 rounded-full bg-gradient-to-tr from-amber-950 via-red-950 to-black border-2 border-vedic-gold shadow-[0_0_35px_rgba(245,158,11,0.5)] flex flex-col items-center justify-center">
+              <span className="text-3xl animate-bounce">🔥</span>
+              <span className="text-[10px] font-bold text-yellow-300 font-serif tracking-wider uppercase mt-1">
+                {isBn ? "হোমাগ্নি" : "Sacred Agni"}
+              </span>
+            </div>
+
+            {/* 7 Auspicious Steps / Paak Badges along the orbit */}
+            {[
+              { num: "১", labelBn: "অন্ন", angle: -90 },
+              { num: "২", labelBn: "শক্তি", angle: -38 },
+              { num: "৩", labelBn: "সমৃদ্ধি", angle: 13 },
+              { num: "৪", labelBn: "সুখ", angle: 64 },
+              { num: "৫", labelBn: "সন্ততি", angle: 115 },
+              { num: "৬", labelBn: "শান্তি", angle: 167 },
+              { num: "৭", labelBn: "বন্ধুত্ব", angle: 218 },
+            ].map((p, idx) => {
+              const rad = (p.angle * Math.PI) / 180;
+              const r = 114;
+              const x = Math.round(r * Math.cos(rad));
+              const y = Math.round(r * Math.sin(rad));
+              return (
+                <div
+                  key={idx}
+                  style={{ transform: `translate(${x}px, ${y}px)` }}
+                  className="absolute w-8 h-8 rounded-full bg-[#35050b] border border-vedic-gold/80 flex flex-col items-center justify-center text-[10px] font-bold text-yellow-300 shadow-lg hover:scale-110 transition-transform cursor-default"
+                  title={`${isBn ? 'সাতপাক পদক্ষেপ' : 'Step'} ${p.num}: ${p.labelBn}`}
+                >
+                  <span>{p.num}</span>
+                </div>
+              );
+            })}
           </div>
 
-          <p className="text-xs text-amber-200/90 leading-relaxed italic">
+          <p className="text-xs text-amber-200/90 leading-relaxed italic max-w-sm mx-auto">
             {isBn
-              ? "পবিত্র হোমাগ্নির সম্মুখে উত্তরীয় ও শাড়ির আঁচলের চিরন্তন গ্রন্থিবন্ধনে দুই হৃদয়ের অনন্ত মিলন।"
-              : "United by the sacred knot, circling the holy agni to walk together through every joy and trial."}
+              ? "পবিত্র হোমাগ্নিকে সাক্ষী রেখে সপ্তপদীর সাতটি পবিত্র পদক্ষেপে দুই হৃদয়ের আজীবন একাত্মতার বৈদিক সংকল্প।"
+              : "Witnessed by the sacred fire, circling seven times to vow eternal companionship across all seasons of life."}
           </p>
-
-          {/* Saptapadi Seven Footsteps Illustration Divider */}
-          <div className="pt-2 border-t border-vedic-gold/20 flex flex-col items-center">
-            <img
-              src="./images/assets/saptapadi_steps.png"
-              alt="Saptapadi Steps"
-              className="h-10 sm:h-12 w-auto object-contain opacity-90 filter drop-shadow"
-            />
-            <span className="text-[10px] text-vedic-gold tracking-widest mt-1 uppercase">
-              {isBn ? "সপ্তপদীর পবিত্র পদচিহ্ন" : "Sacred Footsteps of Saptapadi"}
-            </span>
-          </div>
         </div>
 
         {/* Seven Vows Grid */}

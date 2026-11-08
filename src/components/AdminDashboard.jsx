@@ -147,6 +147,22 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
     .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
   const declinedCount = rsvps.filter(r => r.attending === 'no').length;
 
+  const groomSideGuests = rsvps
+    .filter(r => r.attending === 'yes' && (r.side === 'groom' || !r.side))
+    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
+
+  const brideSideGuests = rsvps
+    .filter(r => r.attending === 'yes' && r.side === 'bride')
+    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
+
+  const vivahEventGuests = rsvps
+    .filter(r => r.attending === 'yes' && (r.eventChoice === 'vivah' || r.eventChoice === 'both' || !r.eventChoice))
+    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
+
+  const boubhatEventGuests = rsvps
+    .filter(r => r.attending === 'yes' && (r.eventChoice === 'boubhat' || r.eventChoice === 'both' || !r.eventChoice))
+    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
+
   if (!isOpen) return null;
 
   return (
@@ -225,7 +241,7 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                   {isBn ? "লাইভ অতিথি তালিকা ও পরিসংখ্যান" : "Live Guest Tracker"}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-serif font-bold text-yellow-200">
-                  {weddingData.couple.bride.nameBn} ও {weddingData.couple.groom.nameBn} এর শুভ বিবাহ
+                  {weddingData.couple.groom.nameBn} ও {weddingData.couple.bride.nameBn} এর শুভ বিবাহ
                 </h3>
               </div>
 
@@ -294,6 +310,38 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
               </div>
             </div>
 
+            {/* Side & Event Breakdown Bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-[#170204] border border-vedic-gold/30 rounded-2xl p-3 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="text-base">👔</span>
+                <div>
+                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "বর পক্ষ" : "Groom Side"}</span>
+                  <span className="font-bold text-yellow-300">{groomSideGuests} জন</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-base">👑</span>
+                <div>
+                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "কনে পক্ষ" : "Bride Side"}</span>
+                  <span className="font-bold text-yellow-300">{brideSideGuests} জন</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-base">🪷</span>
+                <div>
+                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "বিবাহে উপস্থিতি" : "Vivah Guests"}</span>
+                  <span className="font-bold text-amber-200">{vivahEventGuests} জন</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-base">🍽️</span>
+                <div>
+                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "বৌভাতে উপস্থিতি" : "Boubhat Guests"}</span>
+                  <span className="font-bold text-amber-200">{boubhatEventGuests} জন</span>
+                </div>
+              </div>
+            </div>
+
             {/* RSVP Guest List Table */}
             <div className="space-y-3">
               <h4 className="text-sm font-semibold text-vedic-gold uppercase tracking-wider flex items-center gap-2">
@@ -312,9 +360,11 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                       <tr>
                         <th className="p-3">#</th>
                         <th className="p-3">{isBn ? "নাম" : "Name"}</th>
-                        <th className="p-3">{isBn ? "মোবাইল" : "Contact"}</th>
+                        <th className="p-3">{isBn ? "পক্ষ" : "Side"}</th>
+                        <th className="p-3">{isBn ? "অনুষ্ঠান" : "Event"}</th>
                         <th className="p-3">{isBn ? "অবস্থা" : "Status"}</th>
                         <th className="p-3">{isBn ? "অতিথি" : "Guests"}</th>
+                        <th className="p-3">{isBn ? "মোবাইল" : "Contact"}</th>
                         <th className="p-3">{isBn ? "মন্তব্য" : "Note"}</th>
                         <th className="p-3 text-right">{isBn ? "অ্যাকশন" : "Action"}</th>
                       </tr>
@@ -324,7 +374,16 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                         <tr key={r.id} className="hover:bg-vedic-maroon/40 transition">
                           <td className="p-3 text-amber-200/60">{i + 1}</td>
                           <td className="p-3 font-semibold text-yellow-200">{r.name}</td>
-                          <td className="p-3 text-amber-100">{r.phone || '-'}</td>
+                          <td className="p-3">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-950 border border-vedic-gold/30 text-yellow-300">
+                              {r.side === 'bride' ? '👑 কনে পক্ষ' : r.side === 'both' ? '🤝 উভয় পক্ষ' : '👔 বর পক্ষ'}
+                            </span>
+                          </td>
+                          <td className="p-3">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#35050b] border border-vedic-gold/20 text-amber-200">
+                              {r.eventChoice === 'vivah' ? '🪷 বিবাহ' : r.eventChoice === 'boubhat' ? '🍽️ বৌভাত' : '🎊 উভয়'}
+                            </span>
+                          </td>
                           <td className="p-3">
                             <span
                               className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${
@@ -337,7 +396,8 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                             </span>
                           </td>
                           <td className="p-3 font-bold text-yellow-300">{r.guestCount || 0}</td>
-                          <td className="p-3 text-amber-100/80 max-w-[180px] truncate">{r.message || '-'}</td>
+                          <td className="p-3 text-amber-100">{r.phone || '-'}</td>
+                          <td className="p-3 text-amber-100/80 max-w-[150px] truncate">{r.message || '-'}</td>
                           <td className="p-3 text-right">
                             <button
                               onClick={() => handleDeleteRsvp(r.id)}

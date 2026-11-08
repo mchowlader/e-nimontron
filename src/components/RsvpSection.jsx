@@ -9,9 +9,10 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    side: 'groom', // 'groom' (বর পক্ষ), 'bride' (কনে পক্ষ), 'both' (উভয় পক্ষ)
     attending: 'yes', // 'yes' or 'no'
     guestCount: 2,
-    eventsAttending: ['vivah', 'boubhat'],
+    eventChoice: 'both', // 'vivah' (বিবাহ), 'boubhat' (বৌভাত), 'both' (উভয় অনুষ্ঠান)
     message: ''
   });
 
@@ -21,17 +22,6 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleEventToggle = (eventId) => {
-    setFormData(prev => {
-      const exists = prev.eventsAttending.includes(eventId);
-      if (exists) {
-        return { ...prev, eventsAttending: prev.eventsAttending.filter(id => id !== eventId) };
-      } else {
-        return { ...prev, eventsAttending: [...prev.eventsAttending, eventId] };
-      }
-    });
   };
 
   const handleSubmit = (e) => {
@@ -44,9 +34,10 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
       id: Date.now().toString(),
       name: formData.name.trim(),
       phone: formData.phone.trim(),
+      side: formData.side, // 'groom', 'bride', 'both'
       attending: formData.attending,
       guestCount: formData.attending === 'yes' ? parseInt(formData.guestCount, 10) : 0,
-      eventsAttending: formData.attending === 'yes' ? formData.eventsAttending : [],
+      eventChoice: formData.eventChoice, // 'vivah', 'boubhat', 'both'
       message: formData.message.trim(),
       timestamp: new Date().toISOString()
     };
@@ -93,9 +84,29 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
 
   // Generate WhatsApp confirmation message link
   const generateWhatsAppLink = () => {
+    const sideText = formData.side === 'bride'
+      ? (isBn ? 'কনে পক্ষ' : "Bride's Side")
+      : formData.side === 'groom'
+      ? (isBn ? 'বর পক্ষ' : "Groom's Side")
+      : (isBn ? 'উভয় পক্ষ' : 'Both Families');
+
+    const eventText = formData.eventChoice === 'vivah'
+      ? (isBn ? 'শুভ বিবাহ (২৪ ফেব্রুয়ারি, ঝালকাঠি)' : 'Wedding Ceremony (Feb 24, Jhalokathi)')
+      : formData.eventChoice === 'boubhat'
+      ? (isBn ? 'শুভ বৌভাত (২৬ ফেব্রুয়ারি, পাথরঘাটা)' : 'Boubhat Reception (Feb 26, Patharghata)')
+      : (isBn ? 'উভয় অনুষ্ঠান (বিবাহ ও বৌভাত)' : 'Both Events (Wedding & Boubhat)');
+
     const text = isBn
-      ? `নমস্কার! আমি ${formData.name}। মনস্বিতা ও মিঠুনের শুভ বিবাহে আমি ${formData.attending === 'yes' ? `আনন্দসহকারে উপস্থিত থাকব (মোট অতিথি: ${formData.guestCount} জন)` : 'অনিবার্য কারণে উপস্থিত হতে পারছি না'}। ${formData.message ? `বার্তা: "${formData.message}"` : ''}`
-      : `Namaskar! I am ${formData.name}. Regarding the wedding of Manoswita & Mithun: I will ${formData.attending === 'yes' ? `joyfully attend with ${formData.guestCount} guest(s)` : 'sadly be unable to attend'}. ${formData.message ? `Note: "${formData.message}"` : ''}`;
+      ? `নমস্কার! আমি ${formData.name} (${sideText})। মিঠুন ও মনস্বিতার শুভ বিবাহ উপলক্ষে আমি ${
+          formData.attending === 'yes'
+            ? `আনন্দসহকারে "${eventText}"-এ উপস্থিত থাকব (মোট অতিথি: ${formData.guestCount} জন)`
+            : 'অনিবার্য কারণে উপস্থিত হতে পারছি না'
+        }। ${formData.message ? `বার্তা: "${formData.message}"` : ''}`
+      : `Namaskar! I am ${formData.name} (${sideText}). Regarding the wedding of Mithun & Manoswita: I will ${
+          formData.attending === 'yes'
+            ? `joyfully attend "${eventText}" with ${formData.guestCount} guest(s)`
+            : 'sadly be unable to attend'
+        }. ${formData.message ? `Note: "${formData.message}"` : ''}`;
 
     const num = weddingData.contact.whatsappNumber.replace(/[^0-9]/g, '');
     return `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
@@ -132,10 +143,20 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
                 {isBn ? "ধন্যবাদ! আপনার উত্তর গ্রহণ করা হয়েছে" : "Thank You! Your Response is Saved"}
               </h3>
 
-              <div className="bg-[#1f0306] border border-vedic-gold/30 rounded-2xl p-5 max-w-md mx-auto text-left text-sm text-amber-100/90 space-y-2">
+              <div className="bg-[#1f0306] border border-vedic-gold/30 rounded-2xl p-5 max-w-md mx-auto text-left text-sm text-amber-100/90 space-y-2.5">
                 <p>
                   <span className="text-amber-200/60 text-xs">{isBn ? "নাম: " : "Name: "}</span>
-                  <strong>{formData.name}</strong>
+                  <strong className="text-yellow-200">{formData.name}</strong>
+                </p>
+                <p>
+                  <span className="text-amber-200/60 text-xs">{isBn ? "পক্ষ: " : "Side: "}</span>
+                  <span className="text-yellow-300 font-semibold">
+                    {formData.side === 'bride'
+                      ? (isBn ? "👑 কনে পক্ষ (মনস্বিতার পক্ষ)" : "Bride's Side")
+                      : formData.side === 'groom'
+                      ? (isBn ? "👔 বর পক্ষ (মিঠুনের পক্ষ)" : "Groom's Side")
+                      : (isBn ? "🤝 উভয় পক্ষ" : "Both Families")}
+                  </span>
                 </p>
                 <p>
                   <span className="text-amber-200/60 text-xs">{isBn ? "স্ট্যাটাস: " : "Status: "}</span>
@@ -145,6 +166,18 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
                       : (isBn ? "উপস্থিত হতে পারছেন না" : "Cannot Attend")}
                   </span>
                 </p>
+                {formData.attending === 'yes' && (
+                  <p>
+                    <span className="text-amber-200/60 text-xs">{isBn ? "আমন্ত্রিত অনুষ্ঠান: " : "Attending Event: "}</span>
+                    <span className="text-amber-200 font-medium">
+                      {formData.eventChoice === 'vivah'
+                        ? (isBn ? "🪷 শুভ বিবাহ (ঝালকাঠি)" : "Wedding Only")
+                        : formData.eventChoice === 'boubhat'
+                        ? (isBn ? "🍽️ শুভ বৌভাত (পাথরঘাটা)" : "Boubhat Only")
+                        : (isBn ? "🎊 উভয় অনুষ্ঠান (বিবাহ ও বৌভাত)" : "Both Events")}
+                    </span>
+                  </p>
+                )}
                 {formData.phone && (
                   <p>
                     <span className="text-amber-200/60 text-xs">{isBn ? "যোগাযোগ: " : "Contact: "}</span>
@@ -205,6 +238,62 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
                   placeholder={isBn ? "যেমন: 01700-000000" : "e.g. +880 1700-000000"}
                   className="w-full bg-[#250307] border border-vedic-gold/40 rounded-xl px-4 py-3 text-amber-100 text-sm focus:outline-none focus:border-vedic-gold placeholder-amber-200/30"
                 />
+              </div>
+
+              {/* Guest Side Selection (বর পক্ষ নাকি কনে পক্ষ) */}
+              <div>
+                <label className="block text-xs font-semibold text-vedic-gold uppercase tracking-wider mb-2">
+                  {isBn ? "আপনি কোন পক্ষের সম্মানিত অতিথি? *" : "Whose Guest Are You? *"}
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, side: 'groom' }))}
+                    className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 ${
+                      formData.side === 'groom'
+                        ? 'bg-amber-500/20 border-yellow-400 text-yellow-200 font-semibold shadow-lg shadow-yellow-500/10'
+                        : 'bg-[#250307] border-vedic-gold/30 text-amber-100/70 hover:border-vedic-gold/60'
+                    }`}
+                  >
+                    <span className="text-xl">👔</span>
+                    <div>
+                      <p className="font-bold text-sm text-yellow-200">{isBn ? "বর পক্ষ" : "Groom's Side"}</p>
+                      <p className="text-[11px] text-amber-200/70">{isBn ? "মিঠুনের সুহৃদ ও পরিবার" : "Mithun's Side"}</p>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, side: 'bride' }))}
+                    className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 ${
+                      formData.side === 'bride'
+                        ? 'bg-amber-500/20 border-yellow-400 text-yellow-200 font-semibold shadow-lg shadow-yellow-500/10'
+                        : 'bg-[#250307] border-vedic-gold/30 text-amber-100/70 hover:border-vedic-gold/60'
+                    }`}
+                  >
+                    <span className="text-xl">👑</span>
+                    <div>
+                      <p className="font-bold text-sm text-yellow-200">{isBn ? "কনে পক্ষ" : "Bride's Side"}</p>
+                      <p className="text-[11px] text-amber-200/70">{isBn ? "মনস্বিতার সুহৃদ ও পরিবার" : "Manoswita's Side"}</p>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, side: 'both' }))}
+                    className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 ${
+                      formData.side === 'both'
+                        ? 'bg-amber-500/20 border-yellow-400 text-yellow-200 font-semibold shadow-lg shadow-yellow-500/10'
+                        : 'bg-[#250307] border-vedic-gold/30 text-amber-100/70 hover:border-vedic-gold/60'
+                    }`}
+                  >
+                    <span className="text-xl">🤝</span>
+                    <div>
+                      <p className="font-bold text-sm text-yellow-200">{isBn ? "উভয় পক্ষ" : "Both Families"}</p>
+                      <p className="text-[11px] text-amber-200/70">{isBn ? "উভয় পরিবারের শুভাকাঙ্ক্ষী" : "Mutual Family Friend"}</p>
+                    </div>
+                  </button>
+                </div>
               </div>
 
               {/* Attending Radio Selection */}
@@ -291,27 +380,59 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
                     </p>
                   </div>
 
-                  {/* Which events will you attend */}
+                  {/* Event Selection: Biye naki Boubhat */}
                   <div>
                     <label className="block text-xs font-semibold text-vedic-gold uppercase tracking-wider mb-2">
-                      {isBn ? "কোন কোন অনুষ্ঠানে উপস্থিত থাকবেন?" : "Which Events Will You Attend?"}
+                      {isBn ? "কোন অনুষ্ঠানে উপস্থিত থাকবেন? (বিয়ে নাকি বৌভাত) *" : "Which Ceremony Will You Attend? *"}
                     </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      {weddingData.events.map((ev) => (
-                        <button
-                          type="button"
-                          key={ev.id}
-                          onClick={() => handleEventToggle(ev.id)}
-                          className={`p-2.5 rounded-xl border text-xs text-left transition flex items-center justify-between ${
-                            formData.eventsAttending.includes(ev.id)
-                              ? 'bg-vedic-gold/20 border-vedic-gold text-yellow-200 font-semibold'
-                              : 'bg-[#250307] border-vedic-gold/30 text-amber-200/70'
-                          }`}
-                        >
-                          <span className="truncate">{isBn ? ev.titleBn : ev.titleEn}</span>
-                          <span>{formData.eventsAttending.includes(ev.id) ? '✓' : '+'}</span>
-                        </button>
-                      ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, eventChoice: 'vivah' }))}
+                        className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 ${
+                          formData.eventChoice === 'vivah'
+                            ? 'bg-amber-500/20 border-yellow-400 text-yellow-200 font-semibold shadow-md'
+                            : 'bg-[#250307] border-vedic-gold/30 text-amber-100/70 hover:border-vedic-gold/60'
+                        }`}
+                      >
+                        <span className="text-xl">🪷</span>
+                        <div>
+                          <p className="font-bold text-sm text-yellow-200">{isBn ? "শুভ বিবাহ" : "Wedding Only"}</p>
+                          <p className="text-[11px] text-amber-200/70">{isBn ? "২৪ ফেব্রুয়ারি (ঝালকাঠি)" : "Feb 24 (Jhalokathi)"}</p>
+                        </div>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, eventChoice: 'boubhat' }))}
+                        className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 ${
+                          formData.eventChoice === 'boubhat'
+                            ? 'bg-amber-500/20 border-yellow-400 text-yellow-200 font-semibold shadow-md'
+                            : 'bg-[#250307] border-vedic-gold/30 text-amber-100/70 hover:border-vedic-gold/60'
+                        }`}
+                      >
+                        <span className="text-xl">🍽️</span>
+                        <div>
+                          <p className="font-bold text-sm text-yellow-200">{isBn ? "শুভ বৌভাত" : "Boubhat Only"}</p>
+                          <p className="text-[11px] text-amber-200/70">{isBn ? "২৬ ফেব্রুয়ারি (পাথরঘাটা)" : "Feb 26 (Patharghata)"}</p>
+                        </div>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, eventChoice: 'both' }))}
+                        className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 ${
+                          formData.eventChoice === 'both'
+                            ? 'bg-amber-500/20 border-yellow-400 text-yellow-200 font-semibold shadow-md'
+                            : 'bg-[#250307] border-vedic-gold/30 text-amber-100/70 hover:border-vedic-gold/60'
+                        }`}
+                      >
+                        <span className="text-xl">🎊</span>
+                        <div>
+                          <p className="font-bold text-sm text-yellow-200">{isBn ? "উভয় অনুষ্ঠান" : "Both Events"}</p>
+                          <p className="text-[11px] text-amber-200/70">{isBn ? "বিবাহ ও বৌভাত উভয়েই" : "Wedding & Reception"}</p>
+                        </div>
+                      </button>
                     </div>
                   </div>
                 </div>
