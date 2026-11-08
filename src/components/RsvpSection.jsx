@@ -82,7 +82,7 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
   // Generate WhatsApp confirmation message link
   const generateWhatsAppLink = () => {
     const text = isBn
-      ? `নমস্কার! আমি ${formData.name}। মিথুন ও মনস্বিতার শুভ বিবাহে আমি ${formData.attending === 'yes' ? `আনন্দসহকারে উপস্থিত থাকব (মোট অতিথি: ${formData.guestCount} জন)` : 'অনিবার্য কারণে উপস্থিত হতে পারছি না'}। ${formData.message ? `বার্তা: "${formData.message}"` : ''}`
+      ? `নমস্কার! আমি ${formData.name}। মিঠুন ও মনস্বিতার শুভ বিবাহে আমি ${formData.attending === 'yes' ? `আনন্দসহকারে উপস্থিত থাকব (মোট অতিথি: ${formData.guestCount} জন)` : 'অনিবার্য কারণে উপস্থিত হতে পারছি না'}। ${formData.message ? `বার্তা: "${formData.message}"` : ''}`
       : `Namaskar! I am ${formData.name}. Regarding the wedding of Mithun & Manoswita: I will ${formData.attending === 'yes' ? `joyfully attend with ${formData.guestCount} guest(s)` : 'sadly be unable to attend'}. ${formData.message ? `Note: "${formData.message}"` : ''}`;
 
     const num = weddingData.contact.whatsappNumber.replace(/[^0-9]/g, '');
