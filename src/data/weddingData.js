@@ -70,11 +70,11 @@ export const weddingData = {
     }
   },
 
-  // Auspicious Dates and Timings (24 Falgun 1433 = March 9, 2027)
+  // Auspicious Dates and Timings (11 Falgun 1433 = February 24, 2027)
   dates: {
-    weddingTarget: "2027-03-09T18:32:00+06:00",
-    displayDateBn: "২৪ ফাল্গুন, ১৪৩৩ | ৯ মার্চ, ২০২৭ (মঙ্গলবার)",
-    displayDateEn: "Tuesday, March 9, 2027 (24 Falgun, 1433)",
+    weddingTarget: "2027-02-24T18:32:00+06:00",
+    displayDateBn: "১১ ফাল্গুন, ১৪৩৩ | ২৪ ফেব্রুয়ারি, ২০২৭ (বুধবার)",
+    displayDateEn: "Wednesday, February 24, 2027 (11 Falgun, 1433)",
     auspiciousLagnaBn: "শুভ বিবাহ লগ্ন: সন্ধ্যা ৬টা ৩২ মিনিট থেকে শুরু",
     auspiciousLagnaEn: "Auspicious Vivah Lagna: 6:32 PM Onwards",
   },
@@ -85,8 +85,8 @@ export const weddingData = {
       id: "holud",
       titleBn: "মাঙ্গলিক গায়ে হলুদ ও সঙ্গীত",
       titleEn: "Gaye Holud & Sangeet",
-      dateBn: "২৩ ফাল্গুন, ১৪৩৩ | ৮ মার্চ, ২০২৭ (সোমবার)",
-      dateEn: "Monday, March 8, 2027",
+      dateBn: "১০ ফাল্গুন, ১৪৩৩ | ২৩ ফেব্রুয়ারি, ২০২৭ (মঙ্গলবার)",
+      dateEn: "Tuesday, February 23, 2027",
       timeBn: "সন্ধ্যা ৬:০০ টা থেকে রাত ১০:০০ টা",
       timeEn: "6:00 PM – 10:00 PM",
       venueBn: "বাসস্থান প্রাঙ্গণ",
@@ -96,8 +96,8 @@ export const weddingData = {
       mapUrl: "https://maps.google.com/?q=Jhalokathi+Sadar+Barisal",
       calendarTitle: "Gaye Holud - Mithun & Manoswita",
       calendarDesc: "Join us for the vibrant Gaye Holud ceremony of Mithun Chandra Howlader & Manoswita Halder Rinku!",
-      startIso: "20270308T120000Z",
-      endIso: "20270308T160000Z",
+      startIso: "20270223T120000Z",
+      endIso: "20270223T160000Z",
       themeColor: "from-amber-700 to-yellow-600",
       icon: "Sparkles"
     },
@@ -105,8 +105,8 @@ export const weddingData = {
       id: "vivah",
       titleBn: "শুভ বিবাহ অনুষ্ঠান ও সপ্তপদী",
       titleEn: "Sacred Vivah Ceremony & Saptapadi",
-      dateBn: "২৪ ফাল্গুন, ১৪৩৩ | ৯ মার্চ, ২০২৭ (মঙ্গলবার)",
-      dateEn: "Tuesday, March 9, 2027",
+      dateBn: "১১ ফাল্গুন, ১৪৩৩ | ২৪ ফেব্রুয়ারি, ২০২৭ (বুধবার)",
+      dateEn: "Wednesday, February 24, 2027",
       timeBn: "সন্ধ্যা ৬:৩২ মিনিট (শুভ লগ্ন) থেকে মধ্যরাত",
       timeEn: "6:32 PM (Auspicious Lagna) Onwards",
       venueBn: "বিবাহ বাসর প্রাঙ্গণ, ঝালকাঠি সদর",
@@ -116,8 +116,8 @@ export const weddingData = {
       mapUrl: "https://maps.google.com/?q=Jhalokathi+Sadar+Jhalokathi+Barisal",
       calendarTitle: "Shubh Vivah - Mithun & Manoswita",
       calendarDesc: "Sacred Vedic Wedding Ceremony of Mithun Chandra Howlader & Manoswita Halder Rinku at Jhalokathi Sadar, Barisal.",
-      startIso: "20270309T123200Z",
-      endIso: "20270309T180000Z",
+      startIso: "20270224T123200Z",
+      endIso: "20270224T180000Z",
       themeColor: "from-red-800 to-amber-700",
       icon: "Flame"
     },
@@ -125,8 +125,8 @@ export const weddingData = {
       id: "boubhat",
       titleBn: "প্রীতিভোজ ও শুভ বৌভাত সংবর্ধনা",
       titleEn: "Grand Boubhat & Reception Banquet",
-      dateBn: "২৬ ফাল্গুন, ১৪৩৩ | ১১ মার্চ, ২০২৭ (বৃহস্পতিবার)",
-      dateEn: "Thursday, March 11, 2027",
+      dateBn: "১৩ ফাল্গুন, ১৪৩৩ | ২৬ ফেব্রুয়ারি, ২০২৭ (শুক্রবার)",
+      dateEn: "Friday, February 26, 2027",
       timeBn: "দুপুর ১২:০০ টা (মধ্যাহ্নভোজ) ও সন্ধ্যা ৭:০০ টা (প্রীতিভোজ)",
       timeEn: "12:00 PM (Banquet Lunch) & 7:00 PM Onwards",
       venueBn: "হাতেমপুর বর প্রাঙ্গণ, পাথরঘাটা",
@@ -136,8 +136,8 @@ export const weddingData = {
       mapUrl: "https://maps.google.com/?q=Hatempur+Patharghata+Barguna+Barisal",
       calendarTitle: "Boubhat Reception - Mithun & Manoswita",
       calendarDesc: "Grand wedding banquet and blessings reception for newlywed couple Mithun Chandra Howlader & Manoswita Halder Rinku at Hatempur, Patharghata.",
-      startIso: "20270311T060000Z",
-      endIso: "20270311T160000Z",
+      startIso: "20270226T060000Z",
+      endIso: "20270226T160000Z",
       themeColor: "from-rose-900 to-amber-800",
       icon: "Heart"
     }
