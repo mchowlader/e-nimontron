@@ -29,7 +29,7 @@ export default function AudioPlayer({ lang, autoPlayTrigger }) {
     }
   };
 
-  // Listen for immediate synchronous user interaction trigger (e.g. Open Invitation button click)
+  // Listen for user clicking "নিমন্ত্রণপত্রটি খুলুন" button
   useEffect(() => {
     const handlePlayEvent = () => {
       startPlayback();
@@ -41,33 +41,7 @@ export default function AudioPlayer({ lang, autoPlayTrigger }) {
     };
   }, []);
 
-  // 1. Try to autoplay as soon as the page loads
-  useEffect(() => {
-    startPlayback();
-
-    // 2. Fallback: On the first touch, scroll, or tap anywhere on the page, start audio automatically
-    const handleFirstUserInteraction = () => {
-      startPlayback();
-      window.removeEventListener('click', handleFirstUserInteraction);
-      window.removeEventListener('touchstart', handleFirstUserInteraction);
-      window.removeEventListener('scroll', handleFirstUserInteraction);
-      window.removeEventListener('keydown', handleFirstUserInteraction);
-    };
-
-    window.addEventListener('click', handleFirstUserInteraction, { once: true, passive: true });
-    window.addEventListener('touchstart', handleFirstUserInteraction, { once: true, passive: true });
-    window.addEventListener('scroll', handleFirstUserInteraction, { once: true, passive: true });
-    window.addEventListener('keydown', handleFirstUserInteraction, { once: true, passive: true });
-
-    return () => {
-      window.removeEventListener('click', handleFirstUserInteraction);
-      window.removeEventListener('touchstart', handleFirstUserInteraction);
-      window.removeEventListener('scroll', handleFirstUserInteraction);
-      window.removeEventListener('keydown', handleFirstUserInteraction);
-    };
-  }, []);
-
-  // Also play when envelope is opened
+  // Also start playback when envelope is closed via user interaction
   useEffect(() => {
     if (autoPlayTrigger) {
       startPlayback();
