@@ -46,7 +46,7 @@ export default function EventSchedule({ lang }) {
                     {event.id === 'holud' ? (
                       <img src="./images/assets/biye_kula_sticker.png" alt="বিয়ের কুলা" className="w-full h-full object-contain filter drop-shadow" title="মাঙ্গলিক কুলা ও কলাপাতা" />
                     ) : event.id === 'vivah' ? (
-                      <img src="./images/assets/biye_piri.svg" alt="বিয়ের পিঁড়ি" className="w-full h-full object-contain" title="বিয়ের আলপনা পিঁড়ি" />
+                      <img src="./images/assets/sindoor_bowl_sticker.png" alt="সিঁদুর পাত্র" className="w-full h-full object-contain filter drop-shadow" title="মাঙ্গলিক সিঁদুর পাত্র" />
                     ) : (
                       <span className="text-xl">🪷</span>
                     )}
@@ -78,38 +78,6 @@ export default function EventSchedule({ lang }) {
                     <Clock className="w-4 h-4 text-vedic-gold shrink-0 mt-0.5" />
                     <span>{isBn ? event.timeBn : event.timeEn}</span>
                   </div>
-
-                  {/* Sacred Sindoor Daan Highlight for Vivah Ceremony */}
-                  {event.id === 'vivah' && (
-                    <div className="mt-2.5 p-3 rounded-2xl bg-[#220205] border border-vedic-gold/40 shadow-inner space-y-2.5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full bg-[#38050b] border border-vedic-gold/80 p-1 shrink-0 flex items-center justify-center shadow-md">
-                          <img src="./images/assets/sindoor_bowl_sticker.png" alt="মাঙ্গলিক সিঁদুর পাত্র" className="w-full h-full object-contain filter drop-shadow" />
-                        </div>
-                        <div className="text-left">
-                          <p className="text-xs font-bold text-yellow-300 font-serif">
-                            {isBn ? "মাঙ্গলিক সিঁদুর দান ও শুভ লগ্ন" : "Sacred Sindoor Daan"}
-                          </p>
-                          <p className="text-[10px] text-amber-200/80 leading-tight mt-0.5">
-                            {isBn ? "পবিত্র সিঁদুর পাত্র হতে শুভ লগ্নে সিঁদুর দানের মাধ্যমে চিরন্তন দাম্পত্য সূচনা" : "Sacred Sindoor ceremony marking eternal union"}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Sacred Ritual Sketch Artwork */}
-                      <div className="pt-2 border-t border-vedic-gold/20 flex flex-col items-center justify-center">
-                        <img
-                          src="./images/assets/sindoor_daan_gold.png"
-                          alt="মাঙ্গলিক সিঁদুর দান দৃশ্য"
-                          className="h-20 sm:h-24 object-contain filter drop-shadow-[0_2px_8px_rgba(250,204,21,0.25)] opacity-95 hover:opacity-100 transition-opacity"
-                          title="পবিত্র বৈদিক সিঁদুর দান"
-                        />
-                        <span className="text-[10px] text-amber-300/60 font-serif italic mt-1">
-                          {isBn ? "॥ সিঁথির সিঁদুরে পূর্ণ হোক মাঙ্গলিক জীবন ॥" : "|| Sacred Sindoor Daan ||"}
-                        </span>
-                      </div>
-                    </div>
-                  )}
                 </div>
 
                 {/* Venue Details */}

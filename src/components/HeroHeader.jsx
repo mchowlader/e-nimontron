@@ -70,6 +70,32 @@ export default function HeroHeader({ lang }) {
           </div>
         </div>
 
+        {/* Sacred Vedic Agni Element (Compact & Standard Design) */}
+        <div className="flex flex-col items-center justify-center space-y-2 pt-1 pb-1">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-700 shadow-[0_0_25px_rgba(245,158,11,0.5)]">
+            <div className="w-full h-full rounded-full overflow-hidden border border-[#2a0409] bg-black flex items-center justify-center">
+              <video
+                src="./images/assets/sacred_agni.mp4"
+                poster="./images/assets/sacred_agni_poster.jpg"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute -inset-1 rounded-full border border-yellow-400/30 animate-pulse pointer-events-none" />
+          </div>
+
+          <div className="flex items-center gap-2 text-vedic-gold">
+            <span className="text-xs">🔥</span>
+            <span className="text-xs font-serif font-bold text-yellow-300 tracking-wider">
+              {isBn ? "॥ পবিত্র হোমাগ্নি — ওঁ অগ্নয়ে স্বাহা ॥" : "|| Sacred Agni — Om Agnaye Swaha ||"}
+            </span>
+            <span className="text-xs">🔥</span>
+          </div>
+        </div>
+
         {/* Sacred Wedding Invitation Opening Statement */}
         <div className="space-y-4">
           {/* Royal Traditional Motif Crest (Zero stock photos) */}
