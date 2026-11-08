@@ -111,6 +111,37 @@ export default function VenueMap({ lang }) {
             </div>
           </div>
         </div>
+
+        {/* Bridal Palki & Boubhat Thematic Banner */}
+        <div className="max-w-2xl mx-auto bg-gradient-to-b from-[#35050c] via-[#280408] to-[#1d0205] border-2 border-vedic-gold/50 rounded-3xl p-5 sm:p-7 shadow-2xl text-center space-y-4">
+          <div className="flex items-center justify-center gap-2 text-vedic-gold">
+            <span className="text-sm">🪷</span>
+            <span className="text-xs font-serif font-bold text-yellow-300 tracking-wider uppercase">
+              {isBn ? "॥ পালকিতে বধূবরণ ও শুভ বৌভাত সংবর্ধনা ॥" : "|| Bridal Palki & Grand Boubhat Reception ||"}
+            </span>
+            <span className="text-sm">🪷</span>
+          </div>
+
+          <p className="text-xs sm:text-sm text-amber-200/85 max-w-lg mx-auto">
+            {isBn
+              ? "পালকিতে নববধূর শুভাগমনে হাতেমপুর বর প্রাঙ্গণে শুভ বৌভাত ও প্রীতিভোজের পরম আনন্দোৎসব"
+              : "Welcoming the newly wed bride in royal palanquin to Hatempur Groom's Pavilion, Patharghata"}
+          </p>
+
+          {/* Framed Palki Artwork */}
+          <div className="relative mx-auto max-w-md sm:max-w-lg rounded-2xl overflow-hidden border-2 border-vedic-gold/60 shadow-xl bg-white/95 group">
+            <img
+              src="./images/themes/theme_palki.jpg"
+              alt="পালকিতে বধূবরণ"
+              className="w-full h-auto max-h-64 sm:max-h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 border border-vedic-gold/20 rounded-2xl pointer-events-none" />
+          </div>
+
+          <p className="text-xs text-amber-300/70 font-serif italic pt-1">
+            {isBn ? "॥ নববধূর পদার্পণে আলোকিত হোক সংসার — শুভ বৌভাত ও প্রীতিভোজ ॥" : "|| A joyous welcome to our new home and family ||"}
+          </p>
+        </div>
       </div>
     </section>
   );

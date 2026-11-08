@@ -134,34 +134,34 @@ export default function EventSchedule({ lang }) {
           ))}
         </div>
 
-        {/* Sacred Vedic Homagni & Couple Ahuti Theme Banner (Right after Event Schedule) */}
-        <div className="mt-14 max-w-3xl mx-auto bg-gradient-to-b from-[#3a060e] via-[#280408] to-[#1d0205] border-2 border-vedic-gold/50 rounded-3xl p-5 sm:p-7 shadow-2xl text-center space-y-4">
+        {/* Sacred Sindoor Daan Thematic Banner (Right after Event Schedule) */}
+        <div className="mt-14 max-w-2xl mx-auto bg-gradient-to-b from-[#3a060e] via-[#280408] to-[#1d0205] border-2 border-vedic-gold/50 rounded-3xl p-5 sm:p-7 shadow-2xl text-center space-y-4">
           <div className="flex items-center justify-center gap-2 text-vedic-gold">
-            <span className="text-sm">🔥</span>
+            <span className="text-sm">🪷</span>
             <span className="text-xs font-serif font-bold text-yellow-300 tracking-wider uppercase">
-              {isBn ? "॥ পবিত্র হোমাগ্নি ও যজ্ঞাহুতি সংকল্প ॥" : "|| Sacred Homagni & Vedic Oblations ||"}
+              {isBn ? "॥ মাঙ্গলিক সিঁদুর দান ও শুভ বিবাহ লগ্ন ॥" : "|| Sacred Sindoor Daan & Auspicious Vivah ||"}
             </span>
-            <span className="text-sm">🔥</span>
+            <span className="text-sm">🪷</span>
           </div>
 
           <p className="text-xs sm:text-sm text-amber-200/85 max-w-lg mx-auto">
             {isBn
-              ? "শুভ বিবাহ লগ্নে পবিত্র বৈদিক অগ্নিকে সাক্ষী রেখে বর ও কনের যুগল যজ্ঞাহুতি ও চিরন্তন অঙ্গীকার"
-              : "Witnessed by the sacred fire, bride and groom offer holy oblations, binding their souls for eternity"}
+              ? "পবিত্র হোমাগ্নি, শঙ্খধ্বনি ও বৈদিক মন্ত্রোচ্চারণে কনের সিঁথিতে সিঁদুর দানের মাধ্যমে দাম্পত্য জীবনের পরম সূচনা"
+              : "Marking eternal union and lifelong companionship through the sacred Sindoor Daan ritual"}
           </p>
 
-          {/* Framed Iconic Illustration (Priest removed, only Holy Fire & Couple) */}
-          <div className="relative mx-auto max-w-xl rounded-2xl overflow-hidden border border-vedic-gold/40 shadow-xl group">
+          {/* Framed Sindoor Daan Artwork */}
+          <div className="relative mx-auto max-w-md sm:max-w-lg rounded-2xl overflow-hidden border-2 border-vedic-gold/60 shadow-xl bg-white/95 group">
             <img
-              src="./images/assets/homagni_bor_kone_framed.jpg"
-              alt="পবিত্র হোমাগ্নি ও বর-কনে"
-              className="w-full h-auto max-h-72 sm:max-h-80 object-cover object-center group-hover:scale-[1.02] transition-transform duration-500"
+              src="./images/themes/theme_sindoor_daan.jpg"
+              alt="মাঙ্গলিক সিঁদুর দান"
+              className="w-full h-auto max-h-64 sm:max-h-72 object-cover object-center group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 border border-vedic-gold/20 rounded-2xl pointer-events-none" />
           </div>
 
           <p className="text-xs text-amber-300/70 font-serif italic pt-1">
-            {isBn ? "॥ ওঁ প্রজাপতয়ে স্বাহা — অগ্নিদেব ও বিশ্বব্রহ্মাণ্ডের সস্নেহ আশীর্বাদে চিরন্তন পথচলা ॥" : "|| Om Prajapataye Swaha ||"}
+            {isBn ? "॥ সিঁথির সিঁদুরে পূর্ণ হোক মাঙ্গলিক জীবন — চিরন্তন ভালোবাসা ও শ্রদ্ধা ॥" : "|| Sacred Sindoor marking lifelong bond of love & devotion ||"}
           </p>
         </div>
       </div>

@@ -70,27 +70,20 @@ export default function HeroHeader({ lang }) {
           </div>
         </div>
 
-        {/* Sacred Vedic Agni Element (Compact & Standard Design) */}
-        <div className="flex flex-col items-center justify-center space-y-2 pt-1 pb-1">
-          <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-700 shadow-[0_0_25px_rgba(245,158,11,0.5)]">
-            <div className="w-full h-full rounded-full overflow-hidden border border-[#2a0409] bg-black flex items-center justify-center">
-              <video
-                src="./images/assets/sacred_agni.mp4"
-                poster="./images/assets/sacred_agni_poster.jpg"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute -inset-1 rounded-full border border-yellow-400/30 animate-pulse pointer-events-none" />
+        {/* Sacred Wedding Mandap & Homagni Thematic Artwork */}
+        <div className="max-w-md sm:max-w-lg mx-auto space-y-2 pt-1 pb-2">
+          <div className="relative rounded-2xl overflow-hidden border-2 border-vedic-gold/60 shadow-2xl bg-white/95 group">
+            <img
+              src="./images/themes/theme_mandap.jpg"
+              alt="শুভ বিবাহ বাসর মণ্ডপ ও হোমাগ্নি"
+              className="w-full h-auto max-h-56 sm:max-h-64 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 border border-vedic-gold/20 rounded-2xl pointer-events-none" />
           </div>
-
-          <div className="flex items-center gap-2 text-vedic-gold">
+          <div className="flex items-center justify-center gap-2 text-vedic-gold">
             <span className="text-xs">🔥</span>
             <span className="text-xs font-serif font-bold text-yellow-300 tracking-wider">
-              {isBn ? "॥ পবিত্র হোমাগ্নি — ওঁ অগ্নয়ে স্বাহা ॥" : "|| Sacred Agni — Om Agnaye Swaha ||"}
+              {isBn ? "॥ পবিত্র বিবাহ বাসর মণ্ডপ ও হোমাগ্নি ॥" : "|| Sacred Wedding Mandap & Homagni ||"}
             </span>
             <span className="text-xs">🔥</span>
           </div>

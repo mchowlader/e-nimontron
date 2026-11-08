@@ -43,6 +43,25 @@ export default function VedicVows({ lang }) {
           </p>
         </div>
 
+        {/* Sacred Homagni & Couple Ahuti Thematic Artwork */}
+        <div className="max-w-md sm:max-w-lg mx-auto space-y-2 text-center">
+          <div className="relative rounded-2xl overflow-hidden border-2 border-vedic-gold/60 shadow-2xl bg-[#2a0409] group">
+            <img
+              src="./images/themes/theme_homagni.jpg"
+              alt="হোমাগ্নি ও বর-কনের যজ্ঞাহুতি"
+              className="w-full h-auto max-h-56 sm:max-h-64 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 border border-vedic-gold/20 rounded-2xl pointer-events-none" />
+          </div>
+          <div className="flex items-center justify-center gap-2 text-vedic-gold text-xs">
+            <span>❧</span>
+            <span className="font-serif font-bold text-yellow-300">
+              {isBn ? "॥ হোমাগ্নিকে সাক্ষী রেখে বর-কনের যুগল যজ্ঞাহুতি ॥" : "|| Sacred Homagni & Couple Ahuti ||"}
+            </span>
+            <span>☙</span>
+          </div>
+        </div>
+
         {/* Iconic 'Sat Pake Bandha' (সাতপাকের আইকনিক জ্যামিতিক থিম — পবিত্র হোমাগ্নি ও সাতটি প্রদক্ষিণ) */}
         <div className="relative max-w-lg mx-auto bg-gradient-to-b from-[#3a060e] to-[#250307] border-2 border-vedic-gold/60 rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-5">
           <div className="flex items-center justify-center gap-2 text-vedic-gold text-xs font-semibold uppercase tracking-wider">
