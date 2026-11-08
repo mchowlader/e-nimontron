@@ -9,39 +9,74 @@ export default function EnvelopeModal({ isOpen, onClose, lang }) {
   if (!isOpen) return null;
 
   const handleOpenInvitation = () => {
+    // 1. Immediately start music playback on synchronous user gesture
+    window.dispatchEvent(new CustomEvent('wedding-play-audio'));
+
     setIsOpening(true);
 
-    // Burst golden festive confetti
+    // 2. Sacred Vedic Agni (হোমাগ্নি / বৈদিক যজ্ঞাগ্নি) Animation
+    // Glowing golden-amber flame embers rising upwards
     try {
+      const agniColors = ['#ff2200', '#ff4500', '#ff7700', '#ffa500', '#ffd700', '#fff3b0'];
+
+      // Burst 1: Central Homakunda ignition (flame embers leaping up)
       confetti({
-        particleCount: 90,
-        spread: 80,
-        origin: { y: 0.55 },
-        colors: ['#d4af37', '#f3e5ab', '#ff7722', '#8b0000', '#ffd700']
+        particleCount: 85,
+        angle: 90,
+        spread: 75,
+        origin: { x: 0.5, y: 0.85 },
+        startVelocity: 55,
+        gravity: 0.6,
+        scalar: 0.85,
+        colors: agniColors,
+        ticks: 200
       });
+
+      // Burst 2: Side rising sparks & sacred sacred embers
       setTimeout(() => {
         confetti({
           particleCount: 50,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: ['#d4af37', '#ffd700', '#ff9933']
+          angle: 80,
+          spread: 60,
+          origin: { x: 0.3, y: 0.8 },
+          startVelocity: 45,
+          gravity: 0.5,
+          scalar: 0.75,
+          colors: agniColors
         });
         confetti({
           particleCount: 50,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: ['#d4af37', '#ffd700', '#ff9933']
+          angle: 100,
+          spread: 60,
+          origin: { x: 0.7, y: 0.8 },
+          startVelocity: 45,
+          gravity: 0.5,
+          scalar: 0.75,
+          colors: agniColors
         });
-      }, 250);
-    } catch (e) {}
+      }, 180);
 
-    // Delay closing slightly so user sees the 3D flap open animation
+      // Burst 3: Warm golden flame aura & marigold petal drift
+      setTimeout(() => {
+        confetti({
+          particleCount: 65,
+          spread: 110,
+          origin: { x: 0.5, y: 0.65 },
+          startVelocity: 35,
+          gravity: 0.7,
+          scalar: 0.9,
+          colors: ['#ffd700', '#ff9900', '#ff3300', '#f59e0b', '#dc2626']
+        });
+      }, 350);
+    } catch (e) {
+      console.warn('Agni animation error:', e);
+    }
+
+    // Delay closing slightly so guest sees the sacred flame & 3D unfold
     setTimeout(() => {
       onClose();
       setIsOpening(false);
-    }, 1100);
+    }, 1250);
   };
 
   const isBn = lang === 'bn';
@@ -83,10 +118,10 @@ export default function EnvelopeModal({ isOpen, onClose, lang }) {
               <span>☙</span>
             </div>
 
-            {/* Couple Names Preview */}
+            {/* Couple Names Preview - Bride First, Groom Second */}
             <div className="py-2 space-y-1">
               <h2 className="text-3xl sm:text-4xl font-bold text-yellow-300 drop-shadow-[0_2px_12px_rgba(250,204,21,0.4)] leading-relaxed pt-2 pb-1 inline-block">
-                {isBn ? weddingData.couple.groom.nameBn : weddingData.couple.groom.nameEn}
+                {isBn ? weddingData.couple.bride.nameBn : weddingData.couple.bride.nameEn}
               </h2>
               <div className="flex items-center justify-center gap-3 my-1.5 text-vedic-gold">
                 <span className="h-px w-12 bg-gradient-to-r from-transparent to-vedic-gold" />
@@ -94,7 +129,7 @@ export default function EnvelopeModal({ isOpen, onClose, lang }) {
                 <span className="h-px w-12 bg-gradient-to-l from-transparent to-vedic-gold" />
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-yellow-300 drop-shadow-[0_2px_12px_rgba(250,204,21,0.4)] leading-relaxed pt-1 pb-2 inline-block">
-                {isBn ? weddingData.couple.bride.nameBn : weddingData.couple.bride.nameEn}
+                {isBn ? weddingData.couple.groom.nameBn : weddingData.couple.groom.nameEn}
               </h2>
             </div>
 
@@ -121,7 +156,7 @@ export default function EnvelopeModal({ isOpen, onClose, lang }) {
                 </span>
                 <span>
                   {isOpening
-                    ? (isBn ? "উন্মোচিত হচ্ছে..." : "Unfolding Invitation...")
+                    ? (isBn ? "হোমাগ্নি প্রজ্বলিত হচ্ছে..." : "Igniting Sacred Agni...")
                     : (isBn ? "নিমন্ত্রণপত্রটি খুলুন" : "Open Invitation")}
                 </span>
                 <Sparkles className="w-4 h-4 text-vedic-maroon" />
@@ -130,6 +165,24 @@ export default function EnvelopeModal({ isOpen, onClose, lang }) {
                 {isBn ? "সিলমোহরে স্পর্শ করে ডিজিটাল নিমন্ত্রণপত্র উন্মোচন করুন" : "Tap the wax seal to unveil the sacred wedding card"}
               </p>
             </div>
+
+            {/* Sacred Agni Overlay when Unfolding */}
+            {isOpening && (
+              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-gradient-to-t from-red-950/95 via-[#38040a]/95 to-black/85 rounded-3xl p-6 text-center animate-in fade-in duration-300">
+                <div className="relative mb-3">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-t from-red-600 via-amber-500 to-yellow-300 blur-xl opacity-90 animate-pulse" />
+                  <div className="absolute inset-0 flex items-center justify-center text-5xl">
+                    🔥
+                  </div>
+                </div>
+                <h4 className="text-xl sm:text-2xl font-serif font-bold text-yellow-300 tracking-wider drop-shadow-[0_2px_12px_rgba(250,204,21,0.6)]">
+                  {isBn ? "॥ ওঁ অগ্নয়ে স্বাহা ॥" : "|| Om Agnaye Swaha ||"}
+                </h4>
+                <p className="text-xs sm:text-sm text-amber-200 font-serif italic mt-1.5 max-w-xs">
+                  {isBn ? "পবিত্র অগ্নিদেবকে সাক্ষী রেখে শুভ বিবাহ নিমন্ত্রণপত্র উন্মোচিত হচ্ছে..." : "Witnessed by the Sacred Agni, unfolding the divine wedding invitation..."}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

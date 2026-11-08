@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <radialGradient id="goldGrad" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#fff5c0" />
+      <stop offset="40%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </radialGradient>
+    <radialGradient id="redGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ff3344" />
+      <stop offset="70%" stop-color="#b91c1c" />
+      <stop offset="100%" stop-color="#7f1d1d" />
+    </radialGradient>
+  </defs>
+  <!-- Sindoor Box Base (Wood / Brass Ornate Kouto) -->
+  <path d="M 25 78 C 25 88, 75 88, 75 78 L 72 65 C 65 67, 35 67, 28 65 Z" fill="url(#goldGrad)" stroke="#aa820a" stroke-width="1.5" />
+  <!-- Main Pot Body -->
+  <path d="M 20 62 C 16 48, 84 48, 80 62 C 78 72, 22 72, 20 62 Z" fill="url(#redGrad)" stroke="url(#goldGrad)" stroke-width="2" />
+  <!-- Golden filigree waistband -->
+  <ellipse cx="50" cy="58" rx="28" ry="6" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-dasharray="3,2" />
+  <!-- Top Rim -->
+  <ellipse cx="50" cy="48" rx="22" ry="5" fill="url(#goldGrad)" stroke="#854d0e" stroke-width="1.5" />
+  <!-- Sacred Crimson Vermilion Powder Peak -->
+  <path d="M 34 47 C 40 38, 60 38, 66 47 Z" fill="#dc2626" />
+  <!-- Domed Ornate Lid -->
+  <path d="M 30 46 C 30 32, 50 18, 50 16 C 50 18, 70 32, 70 46 Z" fill="url(#goldGrad)" stroke="#854d0e" stroke-width="1.5" />
+  <!-- Top Finial / Kalash Pin -->
+  <circle cx="50" cy="14" r="4" fill="url(#goldGrad)" stroke="#78350f" stroke-width="1" />
+  <circle cx="50" cy="8" r="2" fill="#ef4444" />
+  <!-- Sacred Tilak mark on lid -->
+  <path d="M 50 25 L 50 36 M 46 29 L 54 29" stroke="#b91c1c" stroke-width="2" stroke-linecap="round" />
+</svg>

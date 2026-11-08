@@ -72,16 +72,46 @@ export default function HeroHeader({ lang }) {
 
         {/* Sacred Wedding Invitation Opening Statement */}
         <div className="space-y-4">
+          {/* Traditional Shubho Drishti & Palki Conceptual Artwork */}
+          <div className="relative max-w-xs sm:max-w-sm mx-auto my-4 py-2">
+            <div className="relative rounded-3xl overflow-hidden border-2 border-vedic-gold/60 shadow-[0_0_30px_rgba(234,179,8,0.25)] bg-[#35050b]/90 p-3">
+              <img
+                src="./images/assets/shubho_drishti.webp"
+                alt="Shubh Vivah Shubho Drishti"
+                className="w-full h-auto object-contain rounded-2xl"
+              />
+              <div className="mt-2 text-center">
+                <span className="text-[11px] font-medium text-amber-200/90 tracking-wider">
+                  {isBn ? "॥ শুভ দৃষ্টি ও মালাবদল ॥" : "|| Sacred Shubho Drishti ||"}
+                </span>
+              </div>
+            </div>
+
+            {/* Floating Decorative Bengali Wedding Cultural Stickers (Sticker-type Motifs) */}
+            <div className="absolute -top-3 -left-4 w-12 h-12 rounded-full bg-[#3a060d] border border-vedic-gold/70 shadow-lg p-1.5 flex items-center justify-center animate-bounce duration-1000" title="পালকি">
+              <img src="./images/assets/palki.svg" alt="Palki" className="w-full h-full object-contain" />
+            </div>
+            <div className="absolute -top-3 -right-4 w-12 h-12 rounded-full bg-[#3a060d] border border-vedic-gold/70 shadow-lg p-1.5 flex items-center justify-center" title="বিয়ের আলপনা পিঁড়ি">
+              <img src="./images/assets/biye_piri.svg" alt="বিয়ের পিঁড়ি" className="w-full h-full object-contain" />
+            </div>
+            <div className="absolute -bottom-2 -left-3 w-12 h-12 rounded-full bg-[#3a060d] border border-vedic-gold/70 shadow-lg p-1.5 flex items-center justify-center" title="বিয়ের মাঙ্গলিক কুলা">
+              <img src="./images/assets/biye_kula.svg" alt="বিয়ের কুলা" className="w-full h-full object-contain" />
+            </div>
+            <div className="absolute -bottom-2 -right-3 w-12 h-12 rounded-full bg-[#3a060d] border border-vedic-gold/70 shadow-lg p-1.5 flex items-center justify-center animate-pulse" title="সিঁদুর কৌটো">
+              <img src="./images/assets/sindoor_kouto.svg" alt="Sindoor Kouto" className="w-full h-full object-contain" />
+            </div>
+          </div>
+
           <p className="text-xs sm:text-sm font-medium tracking-widest uppercase text-amber-200/90">
             {isBn
               ? "উভয় পরিবারের সস্নেহ আশীর্বাদে আমাদের শুভ বিবাহ অনুষ্ঠানে আপনাকে সানন্দ নিমন্ত্রণ"
               : "With the divine blessings of our families, we joyfully invite you to celebrate"}
           </p>
 
-          {/* Couple Names Highlight */}
+          {/* Couple Names Highlight - Bride First, Groom Second */}
           <div className="py-2 space-y-1">
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold text-yellow-300 drop-shadow-[0_4px_20px_rgba(250,204,21,0.4)] leading-relaxed pt-3 pb-1 inline-block">
-              {isBn ? weddingData.couple.groom.nameBn : weddingData.couple.groom.nameEn}
+              {isBn ? weddingData.couple.bride.nameBn : weddingData.couple.bride.nameEn}
             </h1>
             <div className="flex items-center justify-center gap-4 my-2 text-vedic-gold">
               <span className="h-px w-16 sm:w-28 bg-gradient-to-r from-transparent via-vedic-gold to-transparent" />
@@ -91,7 +121,7 @@ export default function HeroHeader({ lang }) {
               <span className="h-px w-16 sm:w-28 bg-gradient-to-r from-transparent via-vedic-gold to-transparent" />
             </div>
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold text-yellow-300 drop-shadow-[0_4px_20px_rgba(250,204,21,0.4)] leading-relaxed pt-2 pb-2 inline-block">
-              {isBn ? weddingData.couple.bride.nameBn : weddingData.couple.bride.nameEn}
+              {isBn ? weddingData.couple.groom.nameBn : weddingData.couple.groom.nameEn}
             </h1>
           </div>
 

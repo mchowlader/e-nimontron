@@ -192,8 +192,14 @@ export const weddingData = {
   // Initial Wishes (Empty by default, populated when real guests submit)
   sampleWishes: [],
 
-  // Admin PIN (can be modified by user)
-  adminPin: "1234",
+  // Live Cloud Storage for Global Guest Access (CORS-enabled REST API)
+  cloudStorage: {
+    wishesUrl: "https://api.restful-api.dev/objects/ff808181a09d98f701a1bbf6e955674c",
+    rsvpsUrl: "https://api.restful-api.dev/objects/ff808181a09d98f701a1bbf870ac6752"
+  },
+
+  // Admin PIN for Host Dashboard Access
+  adminPin: "@682672M9thun222@",
 
   // Contact / WhatsApp for instant confirmation
   contact: {

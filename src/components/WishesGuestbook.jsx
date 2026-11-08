@@ -15,12 +15,13 @@ export default function WishesGuestbook({ lang }) {
   const [likes, setLikes] = useState({});
 
   useEffect(() => {
+    // 1. Load local cache
     try {
       const stored = localStorage.getItem('nimontron_wishes');
       if (stored) {
         const parsed = JSON.parse(stored);
-        // Clean out legacy sample dummy wishes (id "1", "2", "3")
-        const realWishes = parsed.filter(w => w.id !== "1" && w.id !== "2" && w.id !== "3");
+        // Clean out legacy sample dummy wishes (id "1", "2", "3" or containing test placeholder text)
+        const realWishes = parsed.filter(w => w.id !== "1" && w.id !== "2" && w.id !== "3" && !w.name?.includes("অরিন্দম"));
         setWishes(realWishes);
         localStorage.setItem('nimontron_wishes', JSON.stringify(realWishes));
       } else {
@@ -29,6 +30,20 @@ export default function WishesGuestbook({ lang }) {
       }
     } catch (e) {
       setWishes([]);
+    }
+
+    // 2. Load live cloud wishes so everyone across devices sees real wishes
+    if (weddingData.cloudStorage?.wishesUrl) {
+      fetch(weddingData.cloudStorage.wishesUrl)
+        .then(res => res.json())
+        .then(data => {
+          if (data?.data?.wishes && Array.isArray(data.data.wishes)) {
+            const cleanCloud = data.data.wishes.filter(w => w.id !== "1" && w.id !== "2" && w.id !== "3" && !w.name?.includes("অরিন্দম"));
+            setWishes(cleanCloud);
+            localStorage.setItem('nimontron_wishes', JSON.stringify(cleanCloud));
+          }
+        })
+        .catch(err => console.log("Cloud wishes fetch info:", err));
     }
   }, []);
 
@@ -83,6 +98,18 @@ export default function WishesGuestbook({ lang }) {
       console.warn("Storage quota exceeded or error", err);
     }
 
+    // Sync to cloud storage so any visitor on any device immediately sees the new wish!
+    if (weddingData.cloudStorage?.wishesUrl) {
+      fetch(weddingData.cloudStorage.wishesUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: "Mithun_Manoswita_Wedding_Wishes",
+          data: { wishes: updated }
+        })
+      }).catch(err => console.log("Cloud wish post error:", err));
+    }
+
     try {
       confetti({
         particleCount: 50,
@@ -114,8 +141,8 @@ export default function WishesGuestbook({ lang }) {
           </h2>
           <p className="text-xs sm:text-sm text-amber-200/80 max-w-xl mx-auto">
             {isBn
-              ? "মিঠুন ও মনস্বিতার নতুন জীবনের শুভক্ষণে আপনার স্নেহময় আশীর্বাদ ও স্মৃতিমধুর ছবি সংযুক্ত করে পাঠিয়ে দিন"
-              : "Share your heartfelt blessings, warm wishes, and upload memories for Mithun & Manoswita"}
+              ? "মনস্বিতা ও মিঠুনের নতুন জীবনের শুভক্ষণে আপনার স্নেহময় আশীর্বাদ ও স্মৃতিমধুর ছবি সংযুক্ত করে পাঠিয়ে দিন"
+              : "Share your heartfelt blessings, warm wishes, and upload memories for Manoswita & Mithun"}
           </p>
         </div>
 
@@ -145,7 +172,7 @@ export default function WishesGuestbook({ lang }) {
                 required
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder={isBn ? "মিঠুন ও মনস্বিতার সুখী দাম্পত্য জীবনের জন্য আন্তরিক শুভকামনা..." : "Wishing Mithun & Manoswita a lifetime of happiness, peace, and eternal love..."}
+                placeholder={isBn ? "মনস্বিতা ও মিঠুনের সুখী দাম্পত্য জীবনের জন্য আন্তরিক শুভকামনা..." : "Wishing Manoswita & Mithun a lifetime of happiness, peace, and eternal love..."}
                 className="w-full bg-[#250307] border border-vedic-gold/40 rounded-xl px-4 py-2.5 text-amber-100 text-sm focus:outline-none focus:border-vedic-gold placeholder-amber-200/30 resize-none"
               />
             </div>

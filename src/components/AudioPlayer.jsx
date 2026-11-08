@@ -14,15 +14,32 @@ export default function AudioPlayer({ lang, autoPlayTrigger }) {
 
   // Helper to start playback smoothly
   const startPlayback = () => {
-    if (audioRef.current && !isPlaying) {
+    if (audioRef.current) {
       audioRef.current.volume = 0.8;
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((err) => {
-        console.log("Initial autoplay waiting for user interaction:", err);
-      });
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((err) => {
+            console.log("Audio playback awaiting user gesture:", err);
+          });
+      }
     }
   };
+
+  // Listen for immediate synchronous user interaction trigger (e.g. Open Invitation button click)
+  useEffect(() => {
+    const handlePlayEvent = () => {
+      startPlayback();
+    };
+
+    window.addEventListener('wedding-play-audio', handlePlayEvent);
+    return () => {
+      window.removeEventListener('wedding-play-audio', handlePlayEvent);
+    };
+  }, []);
 
   // 1. Try to autoplay as soon as the page loads
   useEffect(() => {

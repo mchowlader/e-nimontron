@@ -57,6 +57,18 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
       const updated = [newRsvp, ...existing];
       localStorage.setItem('nimontron_rsvps', JSON.stringify(updated));
       if (onRsvpAdded) onRsvpAdded(updated);
+
+      // Sync to cloud storage for host access across devices
+      if (weddingData.cloudStorage?.rsvpsUrl) {
+        fetch(weddingData.cloudStorage.rsvpsUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: "Mithun_Manoswita_Wedding_RSVP",
+            data: { rsvps: updated }
+          })
+        }).catch(err => console.log("Cloud RSVP sync error:", err));
+      }
     } catch (err) {
       console.error("Failed to save RSVP in local storage", err);
     }
@@ -82,8 +94,8 @@ export default function RsvpSection({ lang, onRsvpAdded }) {
   // Generate WhatsApp confirmation message link
   const generateWhatsAppLink = () => {
     const text = isBn
-      ? `নমস্কার! আমি ${formData.name}। মিঠুন ও মনস্বিতার শুভ বিবাহে আমি ${formData.attending === 'yes' ? `আনন্দসহকারে উপস্থিত থাকব (মোট অতিথি: ${formData.guestCount} জন)` : 'অনিবার্য কারণে উপস্থিত হতে পারছি না'}। ${formData.message ? `বার্তা: "${formData.message}"` : ''}`
-      : `Namaskar! I am ${formData.name}. Regarding the wedding of Mithun & Manoswita: I will ${formData.attending === 'yes' ? `joyfully attend with ${formData.guestCount} guest(s)` : 'sadly be unable to attend'}. ${formData.message ? `Note: "${formData.message}"` : ''}`;
+      ? `নমস্কার! আমি ${formData.name}। মনস্বিতা ও মিঠুনের শুভ বিবাহে আমি ${formData.attending === 'yes' ? `আনন্দসহকারে উপস্থিত থাকব (মোট অতিথি: ${formData.guestCount} জন)` : 'অনিবার্য কারণে উপস্থিত হতে পারছি না'}। ${formData.message ? `বার্তা: "${formData.message}"` : ''}`
+      : `Namaskar! I am ${formData.name}. Regarding the wedding of Manoswita & Mithun: I will ${formData.attending === 'yes' ? `joyfully attend with ${formData.guestCount} guest(s)` : 'sadly be unable to attend'}. ${formData.message ? `Note: "${formData.message}"` : ''}`;
 
     const num = weddingData.contact.whatsappNumber.replace(/[^0-9]/g, '');
     return `https://wa.me/${num}?text=${encodeURIComponent(text)}`;

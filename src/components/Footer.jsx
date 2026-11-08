@@ -7,8 +7,8 @@ export default function Footer({ lang }) {
 
   const handleShareWhatsApp = () => {
     const text = isBn
-      ? `নমস্কার! মিঠুন চন্দ্র হাওলাদার ও মনস্বিতা হালদার রিংকুর শুভ বিবাহ উপলক্ষে আপনাকে ও আপনার পরিবারকে সানন্দ নিমন্ত্রণ। ডিজিটাল নিমন্ত্রণপত্র দেখতে ক্লিক করুন: ${window.location.href}`
-      : `Namaskar! You are cordially invited to the sacred wedding of Mithun Chandra Howlader & Manoswita Halder Rinku. View the digital wedding invitation here: ${window.location.href}`;
+      ? `নমস্কার! মনস্বিতা হালদার রিংকু ও মিঠুন চন্দ্র হাওলাদারের শুভ বিবাহ উপলক্ষে আপনাকে ও আপনার পরিবারকে সানন্দ নিমন্ত্রণ। ডিজিটাল নিমন্ত্রণপত্র দেখতে ক্লিক করুন: ${window.location.href}`
+      : `Namaskar! You are cordially invited to the sacred wedding of Manoswita Halder Rinku & Mithun Chandra Howlader. View the digital wedding invitation here: ${window.location.href}`;
 
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -46,8 +46,8 @@ export default function Footer({ lang }) {
         <div className="pt-6 border-t border-vedic-gold/20 text-xs sm:text-sm text-amber-200/80 space-y-1">
           <p className="font-semibold text-yellow-200">
             {isBn
-              ? "হাওলাদার ও হালদার পরিবারের পক্ষ থেকে সকলকে আন্তরিক ধন্যবাদ ও প্রণাম"
-              : "With humble gratitude and heartfelt regards from Howlader & Halder Families"}
+              ? "হালদার ও হাওলাদার পরিবারের পক্ষ থেকে সকলকে আন্তরিক ধন্যবাদ ও প্রণাম"
+              : "With humble gratitude and heartfelt regards from Halder & Howlader Families"}
           </p>
           <p className="text-[11px] text-amber-200/50">
             {isBn ? "আপনার পদধূলি আমাদের অনুষ্ঠানকে ধন্য করবে।" : "Your blessings and warm presence will grace our celebration."}

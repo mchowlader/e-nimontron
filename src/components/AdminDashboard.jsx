@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { weddingData } from '../data/weddingData';
-import { Shield, Key, Printer, Trash2, Users, CheckCircle, XCircle, Heart, X } from 'lucide-react';
+import { Shield, Key, Printer, Trash2, Users, CheckCircle, XCircle, Heart, X, Eye, EyeOff, RefreshCw } from 'lucide-react';
 
 export default function AdminDashboard({ isOpen, onClose, lang }) {
   const isBn = lang === 'bn';
   const [pinInput, setPinInput] = useState('');
+  const [showPin, setShowPin] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinError, setPinError] = useState(false);
+  const [isLoadingCloud, setIsLoadingCloud] = useState(false);
 
   const [rsvps, setRsvps] = useState([]);
   const [wishes, setWishes] = useState([]);
@@ -17,15 +19,45 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
     }
   }, [isOpen]);
 
-  const loadData = () => {
+  const loadData = async () => {
+    setIsLoadingCloud(true);
     try {
+      // 1. Load local cache
       const storedRsvps = JSON.parse(localStorage.getItem('nimontron_rsvps') || '[]');
       setRsvps(storedRsvps);
 
       const storedWishes = JSON.parse(localStorage.getItem('nimontron_wishes') || '[]');
-      setWishes(storedWishes);
+      const cleanWishes = storedWishes.filter(w => w.id !== '1' && w.id !== '2' && w.id !== '3');
+      setWishes(cleanWishes);
+
+      // 2. Fetch live cloud storage (CORS REST)
+      if (weddingData.cloudStorage?.wishesUrl) {
+        fetch(weddingData.cloudStorage.wishesUrl)
+          .then(res => res.json())
+          .then(data => {
+            if (data?.data?.wishes) {
+              setWishes(data.data.wishes);
+              localStorage.setItem('nimontron_wishes', JSON.stringify(data.data.wishes));
+            }
+          })
+          .catch(err => console.log('Cloud wishes:', err));
+      }
+
+      if (weddingData.cloudStorage?.rsvpsUrl) {
+        fetch(weddingData.cloudStorage.rsvpsUrl)
+          .then(res => res.json())
+          .then(data => {
+            if (data?.data?.rsvps) {
+              setRsvps(data.data.rsvps);
+              localStorage.setItem('nimontron_rsvps', JSON.stringify(data.data.rsvps));
+            }
+          })
+          .catch(err => console.log('Cloud rsvps:', err));
+      }
     } catch (e) {
       console.error("Error loading data", e);
+    } finally {
+      setIsLoadingCloud(false);
     }
   };
 
@@ -40,11 +72,46 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
     }
   };
 
+  const syncWishesToCloud = async (updated) => {
+    if (weddingData.cloudStorage?.wishesUrl) {
+      try {
+        await fetch(weddingData.cloudStorage.wishesUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: "Mithun_Manoswita_Wedding_Wishes",
+            data: { wishes: updated }
+          })
+        });
+      } catch (e) {
+        console.warn("Cloud sync wish update error:", e);
+      }
+    }
+  };
+
+  const syncRsvpsToCloud = async (updated) => {
+    if (weddingData.cloudStorage?.rsvpsUrl) {
+      try {
+        await fetch(weddingData.cloudStorage.rsvpsUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: "Mithun_Manoswita_Wedding_RSVP",
+            data: { rsvps: updated }
+          })
+        });
+      } catch (e) {
+        console.warn("Cloud sync rsvp update error:", e);
+      }
+    }
+  };
+
   const handleDeleteWish = (id) => {
     if (confirm(isBn ? "আপনি কি এই শুভেচ্ছা বার্তাটি মুছে ফেলতে চান?" : "Are you sure you want to delete this wish?")) {
       const updated = wishes.filter(w => w.id !== id);
       setWishes(updated);
       localStorage.setItem('nimontron_wishes', JSON.stringify(updated));
+      syncWishesToCloud(updated);
     }
   };
 
@@ -53,6 +120,19 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
       const updated = rsvps.filter(r => r.id !== id);
       setRsvps(updated);
       localStorage.setItem('nimontron_rsvps', JSON.stringify(updated));
+      syncRsvpsToCloud(updated);
+    }
+  };
+
+  const handleClearAllTestData = () => {
+    if (confirm(isBn ? "সতর্কতা: এটি সমস্ত লোকাল ও ক্লাউড টেস্ট ডেটা মুছে দেবে। আপনি কি নিশ্চিত?" : "Warning: This will clear all test wishes and RSVPs. Are you sure?")) {
+      setWishes([]);
+      setRsvps([]);
+      localStorage.setItem('nimontron_wishes', JSON.stringify([]));
+      localStorage.setItem('nimontron_rsvps', JSON.stringify([]));
+      syncWishesToCloud([]);
+      syncRsvpsToCloud([]);
+      alert(isBn ? "সকল টেস্ট ডেটা সফলভাবে মুছে ফেলা হয়েছে।" : "All test data cleared successfully.");
     }
   };
 
@@ -101,21 +181,29 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPin ? "text" : "password"}
                   autoFocus
                   value={pinInput}
                   onChange={(e) => {
                     setPinInput(e.target.value);
                     setPinError(false);
                   }}
-                  placeholder={isBn ? "গোপন পিন লিখুন (যেমন: 1234)" : "Enter PIN (Default: 1234)"}
-                  className="w-full bg-[#1b0205] border border-vedic-gold/60 rounded-xl px-4 py-3 text-center text-xl tracking-widest text-yellow-300 focus:outline-none focus:border-yellow-400 placeholder:text-xs placeholder:tracking-normal placeholder:text-amber-200/30"
+                  placeholder={isBn ? "গোপন অ্যাডমিন পিন লিখুন" : "Enter Host Admin PIN"}
+                  className="w-full bg-[#1b0205] border border-vedic-gold/60 rounded-xl px-10 py-3 text-center text-lg tracking-wider text-yellow-300 focus:outline-none focus:border-yellow-400 placeholder:text-xs placeholder:tracking-normal placeholder:text-amber-200/40"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPin(!showPin)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-vedic-gold/70 hover:text-yellow-300 transition p-1"
+                  title={showPin ? "পাসওয়ার্ড লুকান" : "পাসওয়ার্ড দেখুন"}
+                >
+                  {showPin ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
               </div>
 
               {pinError && (
                 <p className="text-xs text-red-400">
-                  {isBn ? "ভুল পিন কোড! অনুগ্রহ করে সঠিক পিন প্রদান করুন।" : "Incorrect PIN! Please try again (default: 1234)."}
+                  {isBn ? "ভুল পিন কোড! অনুগ্রহ করে সঠিক পিন প্রদান করুন।" : "Incorrect PIN! Please try again."}
                 </p>
               )}
 
@@ -137,11 +225,30 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                   {isBn ? "লাইভ অতিথি তালিকা ও পরিসংখ্যান" : "Live Guest Tracker"}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-serif font-bold text-yellow-200">
-                  {weddingData.couple.groom.nameBn} ও {weddingData.couple.bride.nameBn} এর শুভ বিবাহ
+                  {weddingData.couple.bride.nameBn} ও {weddingData.couple.groom.nameBn} এর শুভ বিবাহ
                 </h3>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  onClick={loadData}
+                  disabled={isLoadingCloud}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-100 bg-[#3a060d] border border-vedic-gold/40 hover:bg-[#4d0912] shadow transition"
+                  title={isBn ? "ক্লাউড থেকে নতুন ডেটা রিফ্রেশ করুন" : "Refresh data from cloud"}
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${isLoadingCloud ? 'animate-spin' : ''}`} />
+                  <span>{isBn ? "রিফ্রেশ" : "Refresh"}</span>
+                </button>
+
+                <button
+                  onClick={handleClearAllTestData}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-200 bg-red-950/60 border border-red-500/40 hover:bg-red-900/80 shadow transition"
+                  title={isBn ? "টেস্ট ডেটা মুছুন" : "Clear Test Data"}
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                  <span>{isBn ? "টেস্ট ডেটা মুছুন" : "Clear Test Data"}</span>
+                </button>
+
                 <button
                   onClick={handlePrint}
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-vedic-maroonDark bg-gradient-to-r from-amber-200 to-yellow-400 shadow hover:from-yellow-300 transition"

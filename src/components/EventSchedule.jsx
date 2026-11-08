@@ -42,9 +42,15 @@ export default function EventSchedule({ lang }) {
               {/* Event Badge */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="w-10 h-10 rounded-full bg-vedic-maroonDark border border-vedic-gold flex items-center justify-center text-lg shadow">
-                    {event.id === 'holud' ? '🌼' : event.id === 'vivah' ? '🔥' : '🪷'}
-                  </span>
+                  <div className="w-12 h-12 rounded-full bg-vedic-maroonDark border border-vedic-gold/80 flex items-center justify-center p-1.5 shadow-lg group-hover:scale-110 transition-transform">
+                    {event.id === 'holud' ? (
+                      <img src="./images/assets/biye_kula.svg" alt="বিয়ের কুলা" className="w-full h-full object-contain" title="মাঙ্গলিক কুলা" />
+                    ) : event.id === 'vivah' ? (
+                      <img src="./images/assets/biye_piri.svg" alt="বিয়ের পিঁড়ি" className="w-full h-full object-contain" title="বিয়ের আলপনা পিঁড়ি" />
+                    ) : (
+                      <span className="text-xl">🪷</span>
+                    )}
+                  </div>
                   <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-950/70 text-vedic-gold border border-vedic-gold/30">
                     {event.id === 'vivah' ? (isBn ? 'মূল বিবাহ লগ্ন' : 'Main Wedding') : (isBn ? 'মাঙ্গলিক লগ্ন' : 'Ceremony')}
                   </span>

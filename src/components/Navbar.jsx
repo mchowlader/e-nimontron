@@ -23,17 +23,27 @@ export default function Navbar({ lang, setLang, onOpenEnvelope, onOpenAdmin }) {
   return (
     <header className="sticky top-0 z-30 w-full bg-[#35050b]/90 border-b border-vedic-gold/30 backdrop-blur-md shadow-lg transition-all">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Brand / Logo */}
-        <a href="#hero" className="flex items-center gap-2 group">
-          <span className="w-8 h-8 rounded-full bg-vedic-maroon border border-vedic-gold/80 flex items-center justify-center text-sm shadow group-hover:scale-105 transition-transform">
-            🪷
-          </span>
+        {/* Brand / Logo - Royal Calligraphic Style */}
+        <a href="#hero" className="flex items-center gap-2.5 group">
+          <div className="relative w-11 h-11 rounded-full bg-gradient-to-tr from-amber-600 via-yellow-500 to-amber-700 p-0.5 shadow-lg shadow-yellow-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-full h-full rounded-full bg-[#35050b] flex items-center justify-center p-1 overflow-hidden">
+              <img
+                src="./images/assets/shubho_bibaho_gold_calligraphy.png"
+                alt="শুভ বিবাহ"
+                className="w-full h-full object-contain filter drop-shadow"
+              />
+            </div>
+          </div>
           <div className="flex flex-col">
-            <span className="font-serif font-bold text-sm sm:text-base text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-400">
-              {isBn ? "শুভ বিবাহ" : "Shubh Vivah"}
-            </span>
-            <span className="text-[10px] text-amber-200/70 tracking-wider">
-              {isBn ? "ই-নিমন্ত্রণপত্র" : "E-Nimontron"}
+            <div className="flex items-center gap-1">
+              <span className="text-yellow-400 text-xs">❧</span>
+              <span className="font-bengali font-bold text-base sm:text-lg text-yellow-300 drop-shadow-[0_2px_10px_rgba(250,204,21,0.5)] tracking-wide leading-none">
+                {isBn ? "মনস্বিতা ও মিঠুন" : "Manoswita & Mithun"}
+              </span>
+              <span className="text-yellow-400 text-xs">☙</span>
+            </div>
+            <span className="text-[10px] text-amber-200/80 font-medium tracking-widest uppercase mt-0.5">
+              {isBn ? "॥ শুভ বিবাহ নিমন্ত্রণপত্র ॥" : "|| Sacred E-Nimontron ||"}
             </span>
           </div>
         </a>

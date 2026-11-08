@@ -22,9 +22,10 @@ export default function VedicVows({ lang }) {
   return (
     <section id="vows" className="py-20 px-4 bg-[#230307] relative overflow-hidden">
       {/* Decorative fire glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="max-w-5xl mx-auto space-y-12">
+        {/* Section Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-vedic-maroonDark border border-vedic-gold/40 text-xs text-vedic-gold">
             <Flame className="w-4 h-4 text-amber-400" />
@@ -40,6 +41,42 @@ export default function VedicVows({ lang }) {
               ? "হোমাগ্নিকে সাক্ষী রেখে সাতটি পবিত্র পদক্ষেপে চিরন্তন জীবনসঙ্গী হওয়ার বৈদিক সংকল্প"
               : "Seven sacred circumambulations around the holy fire, binding two souls across lifetimes"}
           </p>
+        </div>
+
+        {/* Traditional 'Sat Pake Bandha' (গাঁটছড়া ও হোমাগ্নি) Conceptual Centerpiece */}
+        <div className="relative max-w-md mx-auto bg-gradient-to-b from-[#3a060e] to-[#250307] border-2 border-vedic-gold/60 rounded-3xl p-6 shadow-2xl text-center space-y-4">
+          <div className="flex items-center justify-center gap-2 text-vedic-gold text-xs font-semibold uppercase tracking-wider">
+            <span>❧</span>
+            <span>{isBn ? "গাঁটছড়া ও সাতপাকে বাঁধা" : "The Sacred Knot of Togetherness"}</span>
+            <span>☙</span>
+          </div>
+
+          {/* User's uploaded Gathbandhan illustration */}
+          <div className="relative p-2 rounded-2xl bg-[#1f0306]/80 border border-vedic-gold/30">
+            <img
+              src="./images/assets/satpake_bandha.png"
+              alt="Sat Pake Bandha Gathbandhan"
+              className="w-full h-52 sm:h-60 object-contain mx-auto"
+            />
+          </div>
+
+          <p className="text-xs text-amber-200/90 leading-relaxed italic">
+            {isBn
+              ? "পবিত্র হোমাগ্নির সম্মুখে উত্তরীয় ও শাড়ির আঁচলের চিরন্তন গ্রন্থিবন্ধনে দুই হৃদয়ের অনন্ত মিলন।"
+              : "United by the sacred knot, circling the holy agni to walk together through every joy and trial."}
+          </p>
+
+          {/* Saptapadi Seven Footsteps Illustration Divider */}
+          <div className="pt-2 border-t border-vedic-gold/20 flex flex-col items-center">
+            <img
+              src="./images/assets/saptapadi_steps.png"
+              alt="Saptapadi Steps"
+              className="h-10 sm:h-12 w-auto object-contain opacity-90 filter drop-shadow"
+            />
+            <span className="text-[10px] text-vedic-gold tracking-widest mt-1 uppercase">
+              {isBn ? "সপ্তপদীর পবিত্র পদচিহ্ন" : "Sacred Footsteps of Saptapadi"}
+            </span>
+          </div>
         </div>
 
         {/* Seven Vows Grid */}
@@ -67,4 +104,3 @@ export default function VedicVows({ lang }) {
     </section>
   );
 }
-
