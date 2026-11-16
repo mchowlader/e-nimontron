@@ -7,6 +7,18 @@ export default function EnvelopeModal({ isOpen, onClose, lang }) {
   if (!isOpen) return null;
 
   const handleOpenInvitation = () => {
+    // Reset scroll to top instantly so invitation always opens from the very first page
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // Clear any lingering anchor hash (e.g. #rsvp, #events)
+    if (window.location.hash && window.location.hash !== '#hero') {
+      try {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch (e) {}
+    }
+
     // 1. Immediately start audio on synchronous user gesture
     window.dispatchEvent(new CustomEvent('wedding-play-audio'));
 

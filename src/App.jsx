@@ -27,6 +27,16 @@ export default function App() {
     return cached === null ? true : cached !== 'false';
   });
 
+  // Ensure page always starts at top and never restores old scroll offset on fresh visit or reload
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
+
   // Fetch initial config from cloud storage
   useEffect(() => {
     if (weddingData.cloudStorage?.rsvpsUrl) {
@@ -43,6 +53,15 @@ export default function App() {
   }, []);
 
   const handleEnvelopeClose = () => {
+    // Reset scroll to the absolute top of the invitation
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    if (window.location.hash && window.location.hash !== '#hero') {
+      try {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch (e) {}
+    }
     setShowEnvelope(false);
     setAutoPlayMusic(true); // Triggers audio play upon user opening the envelope
   };
@@ -76,7 +95,12 @@ export default function App() {
         lang={lang}
         setLang={setLang}
         showRsvp={showRsvpSection}
-        onOpenEnvelope={() => setShowEnvelope(true)}
+        onOpenEnvelope={() => {
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+          setShowEnvelope(true);
+        }}
         onOpenAdmin={() => setShowAdmin(true)}
       />
 
