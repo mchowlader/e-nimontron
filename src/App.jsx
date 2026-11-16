@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import HeroHeader from './components/HeroHeader';
 import CoupleSection from './components/CoupleSection';
@@ -13,12 +13,34 @@ import EnvelopeModal from './components/EnvelopeModal';
 import AudioPlayer from './components/AudioPlayer';
 import PetalsCanvas from './components/PetalsCanvas';
 import Footer from './components/Footer';
+import { weddingData } from './data/weddingData';
 
 export default function App() {
   const [lang, setLang] = useState('bn'); // 'bn' (Bangla) or 'en' (English)
   const [showEnvelope, setShowEnvelope] = useState(true);
   const [showAdmin, setShowAdmin] = useState(false);
   const [autoPlayMusic, setAutoPlayMusic] = useState(false);
+
+  // Admin configurable RSVP section visibility
+  const [showRsvpSection, setShowRsvpSection] = useState(() => {
+    const cached = localStorage.getItem('nimontron_config_show_rsvp');
+    return cached === null ? true : cached !== 'false';
+  });
+
+  // Fetch initial config from cloud storage
+  useEffect(() => {
+    if (weddingData.cloudStorage?.rsvpsUrl) {
+      fetch(weddingData.cloudStorage.rsvpsUrl)
+        .then(res => res.json())
+        .then(data => {
+          if (data?.data?.config?.showRsvp !== undefined) {
+            setShowRsvpSection(Boolean(data.data.config.showRsvp));
+            localStorage.setItem('nimontron_config_show_rsvp', String(data.data.config.showRsvp));
+          }
+        })
+        .catch(err => console.log('Config fetch:', err));
+    }
+  }, []);
 
   const handleEnvelopeClose = () => {
     setShowEnvelope(false);
@@ -45,24 +67,27 @@ export default function App() {
         isOpen={showAdmin}
         onClose={() => setShowAdmin(false)}
         lang={lang}
+        showRsvpSection={showRsvpSection}
+        onToggleShowRsvp={setShowRsvpSection}
       />
 
       {/* Floating Top Navigation */}
       <Navbar
         lang={lang}
         setLang={setLang}
+        showRsvp={showRsvpSection}
         onOpenEnvelope={() => setShowEnvelope(true)}
         onOpenAdmin={() => setShowAdmin(true)}
       />
 
       {/* Main Wedding Content Sections */}
       <main className="relative z-10">
-        <HeroHeader lang={lang} />
+        <HeroHeader lang={lang} showRsvp={showRsvpSection} />
         <CoupleSection lang={lang} />
         <VedicVows lang={lang} />
         <EventSchedule lang={lang} />
         <VenueMap lang={lang} />
-        <RsvpSection lang={lang} />
+        {showRsvpSection && <RsvpSection lang={lang} />}
         <WishesGuestbook lang={lang} />
         <GallerySection lang={lang} />
       </main>

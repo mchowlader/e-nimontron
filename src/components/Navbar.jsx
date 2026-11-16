@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Globe, Mail, Menu, X, Heart, Shield } from 'lucide-react';
 
-export default function Navbar({ lang, setLang, onOpenEnvelope, onOpenAdmin }) {
+export default function Navbar({ lang, setLang, showRsvp = true, onOpenEnvelope, onOpenAdmin }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isBn = lang === 'bn';
 
-  const navLinks = [
+  const rawNavLinks = [
     { href: "#hero", labelBn: "মূলপত্র", labelEn: "Home" },
     { href: "#couple", labelBn: "বর ও কনে", labelEn: "Couple" },
     { href: "#events", labelBn: "অনুষ্ঠানসূচি", labelEn: "Events" },
@@ -15,6 +15,8 @@ export default function Navbar({ lang, setLang, onOpenEnvelope, onOpenAdmin }) {
     { href: "#wishes", labelBn: "আশীর্বাদ", labelEn: "Wishes" },
     { href: "#gallery", labelBn: "স্মৃতিমালা", labelEn: "Gallery" },
   ];
+
+  const navLinks = showRsvp ? rawNavLinks : rawNavLinks.filter(l => l.href !== "#rsvp");
 
   const handleLinkClick = () => {
     setMobileMenuOpen(false);

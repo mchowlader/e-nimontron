@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { weddingData } from '../data/weddingData';
 import { Shield, Key, Printer, Trash2, Users, CheckCircle, XCircle, Heart, X, Eye, EyeOff, RefreshCw } from 'lucide-react';
 
-export default function AdminDashboard({ isOpen, onClose, lang }) {
+export default function AdminDashboard({ isOpen, onClose, lang, showRsvpSection = true, onToggleShowRsvp }) {
   const isBn = lang === 'bn';
   const [pinInput, setPinInput] = useState('');
   const [showPin, setShowPin] = useState(false);
@@ -51,6 +51,10 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
               setRsvps(data.data.rsvps);
               localStorage.setItem('nimontron_rsvps', JSON.stringify(data.data.rsvps));
             }
+            if (data?.data?.config?.showRsvp !== undefined && onToggleShowRsvp) {
+              onToggleShowRsvp(Boolean(data.data.config.showRsvp));
+              localStorage.setItem('nimontron_config_show_rsvp', String(data.data.config.showRsvp));
+            }
           })
           .catch(err => console.log('Cloud rsvps:', err));
       }
@@ -89,7 +93,7 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
     }
   };
 
-  const syncRsvpsToCloud = async (updated) => {
+  const syncRsvpsToCloud = async (updated, currentConfigShowRsvp = showRsvpSection) => {
     if (weddingData.cloudStorage?.rsvpsUrl) {
       try {
         await fetch(weddingData.cloudStorage.rsvpsUrl, {
@@ -97,13 +101,22 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: "Mithun_Manoswita_Wedding_RSVP",
-            data: { rsvps: updated }
+            data: { 
+              rsvps: updated,
+              config: { showRsvp: currentConfigShowRsvp }
+            }
           })
         });
       } catch (e) {
         console.warn("Cloud sync rsvp update error:", e);
       }
     }
+  };
+
+  const handleRsvpToggle = (newValue) => {
+    if (onToggleShowRsvp) onToggleShowRsvp(newValue);
+    localStorage.setItem('nimontron_config_show_rsvp', String(newValue));
+    syncRsvpsToCloud(rsvps, newValue);
   };
 
   const handleDeleteWish = (id) => {
@@ -142,26 +155,16 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
 
   // Calculations
   const attendingCount = rsvps.filter(r => r.attending === 'yes').length;
-  const totalGuests = rsvps
-    .filter(r => r.attending === 'yes')
-    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
   const declinedCount = rsvps.filter(r => r.attending === 'no').length;
 
-  const groomSideGuests = rsvps
-    .filter(r => r.attending === 'yes' && (r.side === 'groom' || !r.side))
-    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
+  const groomSideCount = rsvps
+    .filter(r => r.attending === 'yes' && (r.side === 'groom' || !r.side)).length;
 
-  const brideSideGuests = rsvps
-    .filter(r => r.attending === 'yes' && r.side === 'bride')
-    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
+  const brideSideCount = rsvps
+    .filter(r => r.attending === 'yes' && r.side === 'bride').length;
 
-  const vivahEventGuests = rsvps
-    .filter(r => r.attending === 'yes' && (r.eventChoice === 'vivah' || r.eventChoice === 'both' || !r.eventChoice))
-    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
-
-  const boubhatEventGuests = rsvps
-    .filter(r => r.attending === 'yes' && (r.eventChoice === 'boubhat' || r.eventChoice === 'both' || !r.eventChoice))
-    .reduce((sum, r) => sum + (parseInt(r.guestCount, 10) || 0), 0);
+  const bothSideCount = rsvps
+    .filter(r => r.attending === 'yes' && r.side === 'both').length;
 
   if (!isOpen) return null;
 
@@ -275,6 +278,36 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
               </div>
             </div>
 
+            {/* RSVP Section Visibility Toggle for Admin */}
+            <div className="bg-[#1b0205] border-2 border-vedic-gold/60 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">⚙️</span>
+                  <h4 className="font-serif font-bold text-yellow-200 text-sm sm:text-base">
+                    {isBn ? "ই-নিমন্ত্রণপত্রে RSVP (\"আপনি কি উপস্থিত থাকবেন?\") সেকশন নিয়ন্ত্রণ" : "Manage RSVP Section Visibility"}
+                  </h4>
+                </div>
+                <p className="text-xs text-amber-200/70">
+                  {isBn
+                    ? "এটি বন্ধ (আনচেক) করলে মূল ওয়েবসাইটে RSVP ফর্ম ও মেনু লুকানো থাকবে। দর্শনার্থীরা কোনো ফর্ম দেখতে পাবে না।"
+                    : "When unchecked, the RSVP section and navigation link will be hidden from guests on the website."}
+                </p>
+              </div>
+
+              <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                <input
+                  type="checkbox"
+                  checked={showRsvpSection}
+                  onChange={(e) => handleRsvpToggle(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-14 h-7 bg-[#3a060d] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-yellow-300 after:border-yellow-500 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-600 shadow-inner"></div>
+                <span className="ml-3 text-xs font-bold text-yellow-300 whitespace-nowrap">
+                  {showRsvpSection ? (isBn ? "প্রদর্শিত হচ্ছে (অন)" : "Visible (ON)") : (isBn ? "লুকানো রয়েছে (অফ)" : "Hidden (OFF)")}
+                </span>
+              </label>
+            </div>
+
             {/* Metrics Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="bg-[#1e0205] border border-vedic-gold/40 rounded-2xl p-4 text-center">
@@ -282,15 +315,7 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                   {isBn ? "উপস্থিত সম্মতি" : "Attending"}
                 </p>
                 <p className="text-2xl sm:text-3xl font-bold text-green-400 mt-1">{attendingCount}</p>
-                <p className="text-[10px] text-amber-200/50 mt-0.5">{isBn ? "পরিবার / ব্যক্তি" : "parties"}</p>
-              </div>
-
-              <div className="bg-[#1e0205] border border-vedic-gold/40 rounded-2xl p-4 text-center">
-                <p className="text-[10px] sm:text-xs text-amber-200/70 uppercase">
-                  {isBn ? "মোট অতিথি সংখ্যা" : "Total Headcount"}
-                </p>
-                <p className="text-2xl sm:text-3xl font-bold text-yellow-300 mt-1">{totalGuests}</p>
-                <p className="text-[10px] text-amber-200/50 mt-0.5">{isBn ? "জন মেহমান" : "guests"}</p>
+                <p className="text-[10px] text-amber-200/50 mt-0.5">{isBn ? "জন নিশ্চিত" : "confirmed"}</p>
               </div>
 
               <div className="bg-[#1e0205] border border-vedic-gold/40 rounded-2xl p-4 text-center">
@@ -303,6 +328,14 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
 
               <div className="bg-[#1e0205] border border-vedic-gold/40 rounded-2xl p-4 text-center">
                 <p className="text-[10px] sm:text-xs text-amber-200/70 uppercase">
+                  {isBn ? "মোট আরএসভিপি" : "Total RSVPs"}
+                </p>
+                <p className="text-2xl sm:text-3xl font-bold text-yellow-300 mt-1">{rsvps.length}</p>
+                <p className="text-[10px] text-amber-200/50 mt-0.5">{isBn ? "মোট এন্ট্রি" : "total entries"}</p>
+              </div>
+
+              <div className="bg-[#1e0205] border border-vedic-gold/40 rounded-2xl p-4 text-center">
+                <p className="text-[10px] sm:text-xs text-amber-200/70 uppercase">
                   {isBn ? "প্রাপ্ত শুভেচ্ছা" : "Total Wishes"}
                 </p>
                 <p className="text-2xl sm:text-3xl font-bold text-amber-300 mt-1">{wishes.length}</p>
@@ -310,34 +343,27 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
               </div>
             </div>
 
-            {/* Side & Event Breakdown Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-[#170204] border border-vedic-gold/30 rounded-2xl p-3 text-xs">
+            {/* Side Breakdown Bar */}
+            <div className="grid grid-cols-3 gap-2.5 bg-[#170204] border border-vedic-gold/30 rounded-2xl p-3 text-xs">
               <div className="flex items-center gap-2">
                 <span className="text-base">👔</span>
                 <div>
-                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "বর পক্ষ" : "Groom Side"}</span>
-                  <span className="font-bold text-yellow-300">{groomSideGuests} জন</span>
+                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "বর পক্ষ (উপস্থিত)" : "Groom Side"}</span>
+                  <span className="font-bold text-yellow-300">{groomSideCount} জন</span>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-base">👑</span>
                 <div>
-                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "কনে পক্ষ" : "Bride Side"}</span>
-                  <span className="font-bold text-yellow-300">{brideSideGuests} জন</span>
+                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "কনে পক্ষ (উপস্থিত)" : "Bride Side"}</span>
+                  <span className="font-bold text-yellow-300">{brideSideCount} জন</span>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-base">🪷</span>
+                <span className="text-base">🤝</span>
                 <div>
-                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "বিবাহে উপস্থিতি" : "Vivah Guests"}</span>
-                  <span className="font-bold text-amber-200">{vivahEventGuests} জন</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-base">🍽️</span>
-                <div>
-                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "বৌভাতে উপস্থিতি" : "Boubhat Guests"}</span>
-                  <span className="font-bold text-amber-200">{boubhatEventGuests} জন</span>
+                  <span className="text-amber-200/60 text-[10px] block">{isBn ? "উভয় পক্ষ (উপস্থিত)" : "Both Families"}</span>
+                  <span className="font-bold text-amber-200">{bothSideCount} জন</span>
                 </div>
               </div>
             </div>
@@ -361,9 +387,7 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                         <th className="p-3">#</th>
                         <th className="p-3">{isBn ? "নাম" : "Name"}</th>
                         <th className="p-3">{isBn ? "পক্ষ" : "Side"}</th>
-                        <th className="p-3">{isBn ? "অনুষ্ঠান" : "Event"}</th>
-                        <th className="p-3">{isBn ? "অবস্থা" : "Status"}</th>
-                        <th className="p-3">{isBn ? "অতিথি" : "Guests"}</th>
+                        <th className="p-3">{isBn ? "উপস্থিতি অবস্থা" : "Status"}</th>
                         <th className="p-3">{isBn ? "মোবাইল" : "Contact"}</th>
                         <th className="p-3">{isBn ? "মন্তব্য" : "Note"}</th>
                         <th className="p-3 text-right">{isBn ? "অ্যাকশন" : "Action"}</th>
@@ -380,11 +404,6 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                             </span>
                           </td>
                           <td className="p-3">
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#35050b] border border-vedic-gold/20 text-amber-200">
-                              {r.eventChoice === 'vivah' ? '🪷 বিবাহ' : r.eventChoice === 'boubhat' ? '🍽️ বৌভাত' : '🎊 উভয়'}
-                            </span>
-                          </td>
-                          <td className="p-3">
                             <span
                               className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${
                                 r.attending === 'yes'
@@ -392,12 +411,11 @@ export default function AdminDashboard({ isOpen, onClose, lang }) {
                                   : 'bg-red-900/60 text-red-300 border border-red-700/50'
                               }`}
                             >
-                              {r.attending === 'yes' ? (isBn ? 'আসবেন' : 'Attending') : (isBn ? 'আসছেন না' : 'Declined')}
+                              {r.attending === 'yes' ? (isBn ? 'উপস্থিত থাকবেন' : 'Attending') : (isBn ? 'আসছেন না' : 'Declined')}
                             </span>
                           </td>
-                          <td className="p-3 font-bold text-yellow-300">{r.guestCount || 0}</td>
                           <td className="p-3 text-amber-100">{r.phone || '-'}</td>
-                          <td className="p-3 text-amber-100/80 max-w-[150px] truncate">{r.message || '-'}</td>
+                          <td className="p-3 text-amber-100/80 max-w-[180px] truncate">{r.message || '-'}</td>
                           <td className="p-3 text-right">
                             <button
                               onClick={() => handleDeleteRsvp(r.id)}

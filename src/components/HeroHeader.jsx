@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { weddingData } from '../data/weddingData';
 import { Calendar, Clock, MapPin, Sparkles, ChevronDown } from 'lucide-react';
 
-export default function HeroHeader({ lang }) {
+export default function HeroHeader({ lang, showRsvp = true }) {
   const isBn = lang === 'bn';
   const targetDate = new Date(weddingData.dates.weddingTarget).getTime();
 
@@ -190,18 +190,37 @@ export default function HeroHeader({ lang }) {
 
         {/* Call to Actions */}
         <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-          <a
-            href="#rsvp"
-            className="px-7 py-3 rounded-full text-sm font-bold text-vedic-maroonDark bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-300 hover:from-yellow-300 hover:to-amber-200 shadow-xl hover:shadow-yellow-400/25 transition-all transform hover:-translate-y-0.5"
-          >
-            {isBn ? "উপস্থিতি নিশ্চিত করুন (RSVP)" : "RSVP / Confirm Attendance"}
-          </a>
-          <a
-            href="#events"
-            className="px-7 py-3 rounded-full text-sm font-semibold text-vedic-gold bg-vedic-maroonDark/90 hover:bg-vedic-maroon border border-vedic-gold/50 shadow-lg hover:border-vedic-gold transition-all"
-          >
-            {isBn ? "অনুষ্ঠানসূচি ও সময়" : "View Event Schedule"}
-          </a>
+          {showRsvp ? (
+            <>
+              <a
+                href="#rsvp"
+                className="px-7 py-3 rounded-full text-sm font-bold text-vedic-maroonDark bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-300 hover:from-yellow-300 hover:to-amber-200 shadow-xl hover:shadow-yellow-400/25 transition-all transform hover:-translate-y-0.5"
+              >
+                {isBn ? "উপস্থিতি নিশ্চিত করুন (RSVP)" : "RSVP / Confirm Attendance"}
+              </a>
+              <a
+                href="#events"
+                className="px-7 py-3 rounded-full text-sm font-semibold text-vedic-gold bg-vedic-maroonDark/90 hover:bg-vedic-maroon border border-vedic-gold/50 shadow-lg hover:border-vedic-gold transition-all"
+              >
+                {isBn ? "অনুষ্ঠানসূচি ও সময়" : "View Event Schedule"}
+              </a>
+            </>
+          ) : (
+            <>
+              <a
+                href="#events"
+                className="px-8 py-3.5 rounded-full text-sm font-bold text-vedic-maroonDark bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-300 hover:from-yellow-300 hover:to-amber-200 shadow-xl hover:shadow-yellow-400/25 transition-all transform hover:-translate-y-0.5"
+              >
+                {isBn ? "অনুষ্ঠানসূচি ও সময়সূচি দেখুন" : "View Event Schedule"}
+              </a>
+              <a
+                href="#couple"
+                className="px-7 py-3 rounded-full text-sm font-semibold text-vedic-gold bg-vedic-maroonDark/90 hover:bg-vedic-maroon border border-vedic-gold/50 shadow-lg hover:border-vedic-gold transition-all"
+              >
+                {isBn ? "বর ও কনের পরিচয়" : "Meet The Couple"}
+              </a>
+            </>
+          )}
         </div>
 
         {/* Scroll Down Indicator */}
