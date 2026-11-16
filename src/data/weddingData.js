@@ -62,8 +62,8 @@ export const weddingData = {
       parents: {
         fatherBn: "শ্রী রণজিৎ হালদার",
         fatherEn: "Sri Ranajit Halder",
-        motherBn: "শ্রীমতী মানিকা হাওলাদার",
-        motherEn: "Smt. Manika Howlader",
+        motherBn: "শ্রীমতী মনিকা হাওলাদার",
+        motherEn: "Smt. Monika Howlader",
         blessingBn: "ভগবান শ্রীহরির কৃপায় আমাদের প্রাণাধিক কন্যার শুভ বিবাহলগ্নে আপনাদের সপরিবারে সানন্দ উপস্থিতি ও আশীর্বাদ প্রার্থনা করছি।",
         blessingEn: "By the divine grace of Almighty, we cordially invite you to bless our beloved daughter as she enters her new chapter of life."
       }
